@@ -52,6 +52,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Authorization\Authorization.cs" />
     <Compile Include="Authorization\CreateAuthorizationRequestBody.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

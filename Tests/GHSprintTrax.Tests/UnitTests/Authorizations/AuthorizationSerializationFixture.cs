@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using GHSprintTrax.GithubApi.Authorization;
 using GHSprintTrax.Tests.TestSupport;
 using Newtonsoft.Json;
@@ -63,6 +64,41 @@ namespace GHSprintTrax.Tests.UnitTests.Authorizations
             Assert.Matches("\"note\"", ":", "\"" + body.Note + "\"", serialized);
             Assert.Matches("\"note_url\"", ":", "\"" + body.NoteUrl + "\"", serialized);
             Assert.Matches("\"scopes\"", ":", "\\[", "\"repo\"", ",", "\"gist\"", "]", serialized);
+        }
+
+        [Fact]
+        public void SampleAuthorizationDeserializesCorrectly()
+        {
+            const string sampleAuthorization = @"{
+  ""id"": 1,
+  ""url"": ""https://api.github.com/authorizations/1"",
+  ""scopes"": [
+    ""public_repo""
+  ],
+  ""token"": ""abc123"",
+  ""app"": {
+    ""url"": ""http://my-github-app.com"",
+    ""name"": ""my github app""
+  },
+  ""note"": ""optional note"",
+  ""note_url"": ""http://optional/note/url"",
+  ""updated_at"": ""2011-09-06T20:39:23Z"",
+  ""created_at"": ""2011-09-06T17:26:27Z""
+}";
+
+            var deserialized = JsonConvert.DeserializeObject<Authorization>(sampleAuthorization);
+
+            Assert.Equal(1, deserialized.Id);
+            Assert.Equal("https://api.github.com/authorizations/1", deserialized.Url);
+            Assert.Equal(1, deserialized.Scopes.Count);
+            Assert.Equal("public_repo", deserialized.Scopes[0]);
+            Assert.Equal("abc123", deserialized.Token);
+            Assert.Equal("http://my-github-app.com", deserialized.App.Url);
+            Assert.Equal("my github app", deserialized.App.Name);
+            Assert.Equal("optional note", deserialized.Note);
+            Assert.Equal("http://optional/note/url", deserialized.NoteUrl);
+            Assert.Equal(new DateTimeOffset(2011, 9, 6, 20, 39, 23, TimeSpan.Zero), deserialized.UpdatedAt);
+            Assert.Equal(new DateTimeOffset(2011, 9, 6, 17, 26, 27, TimeSpan.Zero), deserialized.CreatedAt);
         }
     }
 }
