@@ -19,11 +19,20 @@ namespace GHSprintTrax.Tests.TestSupport
         /// <param name="assert">Assertions object</param>
         /// <param name="regex">Regular expression to match</param>
         /// <param name="value">Value that should match regex</param>
-        /// <exception cref="AssertionException"
         public static void Matches(this Assertions assert, string regex, string value)
         {
             assert.True(Regex.IsMatch(value, regex),
                 string.Format("Expected string \"{0}\" to match regular expression \"{1}\"", value, regex));
+        }
+
+        public static void Matches(this Assertions assert, params string[] tokens)
+        {
+            var value = tokens[tokens.Length - 1];
+            var regex = string.Join("\\s*", tokens, 0, tokens.Length - 1);
+
+            assert.True(Regex.IsMatch(value, regex),
+                string.Format("Expected string \"{0}\" to match regular expression \"{1}\"", value, regex)
+            );
         }
     }
 }

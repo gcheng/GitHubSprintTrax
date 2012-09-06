@@ -1,11 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace GHSprintTrax.GithubApi.Authorization
 {
     public class CreateAuthorizationRequestBody
     {
+        [JsonProperty("note", NullValueHandling =  NullValueHandling.Ignore)]
+        public string Note { get; set; }
+
+        [JsonProperty("note_url", NullValueHandling = NullValueHandling.Ignore)]
+        public string NoteUrl { get; set; }
+
+        [JsonProperty("scopes", NullValueHandling =  NullValueHandling.Ignore)]
+        public IList<string> Scopes { get; set; }
     }
 }

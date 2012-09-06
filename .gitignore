@@ -9,6 +9,8 @@ obj
 _NCrunch_GHSprintTrax
 *.ncrunchsolution
 *.ncrunchproject
+TestResults/*
+_ReSharper.*/*
 
 # Mac OS #
 .DS_Store
