@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{959D3925-AEBB-4133-ADEB-E15515452588}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Src", "Src", "{FE9505DD-4CF5-4FEB-9E0E-04AD22840F60}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GHSprintTrax.Tests", "Tests\GHSprintTrax.Tests\GHSprintTrax.Tests.csproj", "{88439869-2586-4AC8-BCE9-BAC35516DE99}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GHSprintTrax.GithubApi", "Src\GHSprintTrax.GithubApi\GHSprintTrax.GithubApi.csproj", "{59AE0925-7E03-4D22-8FA4-7AA550C2AB5A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{88439869-2586-4AC8-BCE9-BAC35516DE99}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{88439869-2586-4AC8-BCE9-BAC35516DE99}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{88439869-2586-4AC8-BCE9-BAC35516DE99}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{88439869-2586-4AC8-BCE9-BAC35516DE99}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59AE0925-7E03-4D22-8FA4-7AA550C2AB5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59AE0925-7E03-4D22-8FA4-7AA550C2AB5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59AE0925-7E03-4D22-8FA4-7AA550C2AB5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59AE0925-7E03-4D22-8FA4-7AA550C2AB5A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{88439869-2586-4AC8-BCE9-BAC35516DE99} = {959D3925-AEBB-4133-ADEB-E15515452588}
+		{59AE0925-7E03-4D22-8FA4-7AA550C2AB5A} = {FE9505DD-4CF5-4FEB-9E0E-04AD22840F60}
+	EndGlobalSection
+EndGlobal
