@@ -36,11 +36,13 @@ namespace GHSprintTrax.GithubApi
             return response.Content.ReadAsAsync<Authorization>().Result;
         }
         
-        private HttpRequestMessage CreateMessage(string uri, HttpMethod method)
+        private static HttpRequestMessage CreateMessage(string uri, HttpMethod method)
         {
-            var message = new HttpRequestMessage();
-            message.Method = method;
-            message.RequestUri = new Uri(Constants.GithubUri + uri);
+            var message = new HttpRequestMessage
+            {
+                Method = method, 
+                RequestUri = new Uri(Constants.GithubUri + uri)
+            };
             message.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse(Constants.apiMimeType));
             return message;
         }

@@ -57,7 +57,9 @@
     <Compile Include="AuthorizationAPI.cs" />
     <Compile Include="Authorizations\Authorization.cs" />
     <Compile Include="Authorizations\CreateAuthorizationRequestBody.cs" />
+    <Compile Include="MessageHandlers\BasicAuthHandler.cs" />
     <Compile Include="Constants.cs" />
+    <Compile Include="MessageHandlers\ConsoleLoggingHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
