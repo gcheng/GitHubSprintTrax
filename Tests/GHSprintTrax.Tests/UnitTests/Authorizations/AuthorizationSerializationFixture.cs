@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using GHSprintTrax.GithubApi.Authorization;
+using GHSprintTrax.GithubApi.Authorizations;
 using GHSprintTrax.Tests.TestSupport;
 using Newtonsoft.Json;
 using Xunit;
@@ -26,7 +26,7 @@ namespace GHSprintTrax.Tests.UnitTests.Authorizations
         [Fact]
         public void AuthorizationRequestBodyWithNoteSerializesNoteAsProperty()
         {
-            var body = new CreateAuthorizationRequestBody()
+            var body = new CreateAuthorizationRequestBody
             {
                 Note = "this is a note"
             };
@@ -39,9 +39,9 @@ namespace GHSprintTrax.Tests.UnitTests.Authorizations
         [Fact]
         public void AuthorizationRequestBodyWithScopesSerializesThemAsArray()
         {
-            var body = new CreateAuthorizationRequestBody()
+            var body = new CreateAuthorizationRequestBody
             {
-                Scopes = new List<string>() { "repo", "user", "gist"}
+                Scopes = new List<string> { "repo", "user", "gist"}
             };
 
             string serialized = JsonConvert.SerializeObject(body);
@@ -52,7 +52,7 @@ namespace GHSprintTrax.Tests.UnitTests.Authorizations
         [Fact]
         public void AuthorizationRequestBodyWithNoteUrlAndScopesSerializesAll()
         {
-            var body = new CreateAuthorizationRequestBody()
+            var body = new CreateAuthorizationRequestBody
             {
                 Note = "this is a note",
                 NoteUrl = "http://some/app/url",

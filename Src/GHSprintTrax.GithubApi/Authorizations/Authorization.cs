@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Newtonsoft.Json;
 
-namespace GHSprintTrax.GithubApi.Authorization
+namespace GHSprintTrax.GithubApi.Authorizations
 {
     /// <summary>
     /// This class stores the data for an authorization
