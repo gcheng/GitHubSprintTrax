@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
-using System.Text;
 using GHSprintTrax.GithubApi.Authorizations;
 using GHSprintTrax.GithubApi.MessageHandlers;
 
@@ -16,7 +14,7 @@ namespace GHSprintTrax.GithubApi
 
         public AuthorizationAPI(string user, string password)
         {
-            client = new HttpClient(new BasicAuthHandler(user, password, new ConsoleLoggingHandler()));
+            client = new HttpClient(new BasicAuthHandler(user, password));
         }
 
         public Authorization CreateAuthorization(string note = null, string noteUri = null, IEnumerable<string> scopes = null)

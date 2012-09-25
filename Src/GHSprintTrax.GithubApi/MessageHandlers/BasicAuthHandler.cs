@@ -11,8 +11,8 @@ namespace GHSprintTrax.GithubApi.MessageHandlers
     {
         private readonly string authHeaderValue;
 
-        public BasicAuthHandler(string username, string password, HttpMessageHandler innerHandler)
-            : base(innerHandler)
+        public BasicAuthHandler(string username, string password, HttpMessageHandler innerHandler = null)
+            : base(innerHandler ?? new HttpClientHandler())
         {
             authHeaderValue = CreateAuthHeader(username, password);
         }
