@@ -34,6 +34,14 @@ namespace GHSprintTrax.GithubApi
             return response.Content.ReadAsAsync<Authorization>().Result;
         }
         
+        public Authorization GetAuthorization(int authId)
+        {
+            var message = CreateMessage(string.Format("/authorizations/{0}", authId), HttpMethod.Get);
+            HttpResponseMessage response = client.SendAsync(message).Result;
+            response.EnsureSuccessStatusCode();
+            return response.Content.ReadAsAsync<Authorization>().Result;
+        }
+
         private static HttpRequestMessage CreateMessage(string uri, HttpMethod method)
         {
             var message = new HttpRequestMessage
