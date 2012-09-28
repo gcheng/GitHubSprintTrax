@@ -5,21 +5,23 @@ using System.Net.Http.Headers;
 
 namespace GHSprintTrax.GithubApi.EntityImplementations
 {
-    public class EntityImplementation
+    public abstract class EntityImplementation
     {
-        protected HttpClient client;
+        private readonly string rootUri;
+        private readonly HttpClient client;
 
-        public EntityImplementation(HttpClient client)
+        protected EntityImplementation(HttpClient client, string rootUri)
         {
             this.client = client;
+            this.rootUri = rootUri;
         }
 
-        private static HttpRequestMessage CreateMessage(string uri, HttpMethod method)
+        private HttpRequestMessage CreateMessage(string uri, HttpMethod method)
         {
             var message = new HttpRequestMessage
             {
                 Method = method, 
-                RequestUri = new Uri(Constants.GithubUri + uri)
+                RequestUri = new Uri(rootUri + uri)
             };
             message.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse(Constants.apiMimeType));
             return message;

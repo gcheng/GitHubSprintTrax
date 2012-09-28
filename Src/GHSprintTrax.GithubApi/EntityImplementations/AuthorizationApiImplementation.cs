@@ -9,8 +9,8 @@ namespace GHSprintTrax.GithubApi.EntityImplementations
 {
     class AuthorizationApiImplementation : EntityImplementation, IAuthorizationAPI
     {
-        public AuthorizationApiImplementation(HttpClient client)
-            : base(client)
+        public AuthorizationApiImplementation(HttpClient client, string rootUri)
+            : base(client, rootUri)
         {
         }
 

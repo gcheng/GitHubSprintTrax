@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using GHSprintTrax.GithubApi;
+﻿using GHSprintTrax.GithubApi;
 using GHSprintTrax.Tests.TestSupport;
 using Xunit;
 
@@ -22,7 +18,7 @@ namespace GHSprintTrax.Tests.IntegrationTests
         [Fact]
         public void CanRetrieveAuthenticatedUser()
         {
-            User currentUser = github.Users.GetAuthenticatedUser();
+            User currentUser = github.CurrentUser.GetInfo();
 
             Assert.Equal(Username, currentUser.Login);
         }

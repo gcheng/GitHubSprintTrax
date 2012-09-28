@@ -57,9 +57,11 @@
     <Compile Include="AuthorizationService.cs" />
     <Compile Include="Authorization.cs" />
     <Compile Include="EntityImplementations\AuthorizationApiImplementation.cs" />
+    <Compile Include="EntityImplementations\AuthenticatedUserApiImplementation.cs" />
     <Compile Include="EntityImplementations\EntityImplementation.cs" />
     <Compile Include="EntityImplementations\UserApiImplementation.cs" />
     <Compile Include="GithubService.cs" />
+    <Compile Include="IAuthenticatedUserAPI.cs" />
     <Compile Include="IAuthorizationAPI.cs" />
     <Compile Include="RequestBodyTypes\CreateAuthorizationRequestBody.cs" />
     <Compile Include="IUserAPI.cs" />

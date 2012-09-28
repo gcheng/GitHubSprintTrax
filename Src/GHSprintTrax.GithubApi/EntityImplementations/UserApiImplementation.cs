@@ -4,8 +4,8 @@ namespace GHSprintTrax.GithubApi.EntityImplementations
 {
     class UserApiImplementation : EntityImplementation, IUserAPI
     {
-        public UserApiImplementation(HttpClient client)
-            : base(client)
+        public UserApiImplementation(HttpClient client, string rootUri)
+            : base(client, rootUri)
         {
         }
 
