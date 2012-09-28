@@ -10,7 +10,7 @@ using Xunit.Extensions;
 
 namespace GHSprintTrax.Tests.IntegrationTests.Authorizations
 {
-    public class AuthHandlerFixture : UserPasswordUsingFixture, IDisposable
+    public class AuthHandlerFixture : UserPasswordUsingFixture, IUseFixture<AuthorizationCleanup>
     {
         private readonly AuthorizationAPI authService;
 
@@ -19,15 +19,9 @@ namespace GHSprintTrax.Tests.IntegrationTests.Authorizations
             authService = new AuthorizationAPI(Username, Password);
         }
 
-        public void Dispose()
+        public void SetFixture(AuthorizationCleanup data)
         {
-            foreach (var authorization in authService.ListAuthorizations())
-            {
-                if (authorization.Note != null && authorization.Note.StartsWith("testAuthorization"))
-                {
-                    authService.DeleteAuthorization(authorization);
-                }
-            }
+            data.Initialize(Username, Password, "test");
         }
 
         [Fact]
@@ -83,5 +77,7 @@ namespace GHSprintTrax.Tests.IntegrationTests.Authorizations
             Assert.Contains(expectedNotes[0], notes);
             Assert.Contains(expectedNotes[1], notes);
         }
-    }
+    
+
+}
 }
