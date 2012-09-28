@@ -62,9 +62,11 @@
   <ItemGroup>
     <Compile Include="Experiments\BootstrapFixture.cs" />
     <Compile Include="IntegrationTests\Authorizations\AuthHandlerFixture.cs" />
+    <Compile Include="IntegrationTests\UserIntegrationFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestSupport\AssertExtensions.cs" />
     <Compile Include="TestSupport\AuthorizationCleanup.cs" />
+    <Compile Include="TestSupport\GetAuthorizationFixtureSetup.cs" />
     <Compile Include="TestSupport\UserPasswordUsingFixture.cs" />
     <Compile Include="UnitTests\Authorizations\AuthorizationSerializationFixture.cs" />
   </ItemGroup>

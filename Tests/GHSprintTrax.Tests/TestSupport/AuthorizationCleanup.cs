@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using GHSprintTrax.GithubApi;
 
 namespace GHSprintTrax.Tests.TestSupport
@@ -13,14 +10,16 @@ namespace GHSprintTrax.Tests.TestSupport
     /// </summary>
     public class AuthorizationCleanup : IDisposable
     {
-        private AuthorizationAPI authClient = null;
+        private AuthorizationService authClient;
         private string prefix;
 
+// ReSharper disable ParameterHidesMember
         public void Initialize(string username, string password, string prefix)
+// ReSharper restore ParameterHidesMember
         {
             if (authClient == null)
             {
-                authClient = new AuthorizationAPI(username, password);
+                authClient = new AuthorizationService(username, password);
                 this.prefix = prefix;
                 DeletePrefixedAuthorizations();
             }

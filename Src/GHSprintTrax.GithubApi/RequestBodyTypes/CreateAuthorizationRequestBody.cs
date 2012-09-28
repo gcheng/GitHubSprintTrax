@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace GHSprintTrax.GithubApi.Authorizations
+namespace GHSprintTrax.GithubApi.RequestBodyTypes
 {
     public class CreateAuthorizationRequestBody
     {

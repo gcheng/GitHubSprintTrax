@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using GHSprintTrax.GithubApi.Authorizations;
+using GHSprintTrax.GithubApi;
+using GHSprintTrax.GithubApi.RequestBodyTypes;
 using GHSprintTrax.Tests.TestSupport;
 using Newtonsoft.Json;
 using Xunit;
