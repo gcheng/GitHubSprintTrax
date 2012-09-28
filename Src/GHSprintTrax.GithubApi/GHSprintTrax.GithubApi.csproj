@@ -60,6 +60,7 @@
     <Compile Include="MessageHandlers\BasicAuthHandler.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="MessageHandlers\ConsoleLoggingHandler.cs" />
+    <Compile Include="MessageHandlers\OAuth2Handler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -21,6 +21,13 @@ namespace GHSprintTrax.Tests.IntegrationTests.Authorizations
 
         public void Dispose()
         {
+            foreach (var authorization in authService.ListAuthorizations())
+            {
+                if (authorization.Note != null && authorization.Note.StartsWith("testAuthorization"))
+                {
+                    authService.DeleteAuthorization(authorization);
+                }
+            }
         }
 
         [Fact]
@@ -55,6 +62,26 @@ namespace GHSprintTrax.Tests.IntegrationTests.Authorizations
 
             Assert.Equal(authToRetrieve.Id, retrieved.Id);
             Assert.Equal(expectedNote, retrieved.Note);
+        }
+
+
+
+        [Fact]
+        public void CanRetrieveAllAuthorizations()
+        {
+            string[] expectedNotes = new string[] { "testAuthorization3-retrieval", "testAuthorization4-retrieval" };
+            foreach (var note in expectedNotes)
+            {
+                authService.CreateAuthorization(note: note);
+            }
+
+            List<Authorization> authorizations = authService.ListAuthorizations().ToList();
+
+            Assert.True(authorizations.Count >= 2);
+
+            List<string> notes = authorizations.Select(a => a.Note).ToList();
+            Assert.Contains(expectedNotes[0], notes);
+            Assert.Contains(expectedNotes[1], notes);
         }
     }
 }
