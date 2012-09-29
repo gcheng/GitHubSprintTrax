@@ -1,83 +1,86 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Newtonsoft.Json;
+using System.Net.Http;
+using GHSprintTrax.GithubApi.EntityImplementations;
+using GHSprintTrax.GithubApi.SerializationTypes;
 
 namespace GHSprintTrax.GithubApi
 {
     /// <summary>
     /// Information returned by the Github user APIs
     /// </summary>
-    public class User
+    public class User : EntityImplementation
     {
-        public string Login { get; set; }
-        public int Id { get; set; }
+        private readonly UserData userData;
 
-        [JsonProperty("avatar_url")]
-        public string AvatarUrl { get; set; }
-
-        [JsonProperty("gravatar_id")]
-        public string GravatarId { get; set; }
-
-        public string Url { get; set; }
-
-        public string Name { get; set; }
-
-        public string Company { get; set; }
-
-        public string Blog { get; set; }
-
-        public string Location { get; set; }
-
-        public string Email { get; set; }
-
-        public bool Hireable { get; set; }
-
-        public string Bio { get; set; }
-
-        [JsonProperty("public_repos")]
-        public int PublicRepos { get; set; }
-
-        [JsonProperty("public_gists")]
-        public int PublicGists { get; set; }
-
-        public int Followers { get; set; }
-
-        public int Following { get; set; }
-
-        [JsonProperty("html_url")]
-        public string HtmlUrl { get; set; }
-
-        [JsonProperty("created_at")]
-        public DateTimeOffset CreatedAt { get; set; }
-
-        public string Type { get; set; }
-
-        [JsonProperty("total_private_repos")]
-        public int TotalPrivateRepos { get; set; }
-
-        [JsonProperty("owned_private_repos")]
-        public int OwnedPrivateRepos { get; set; }
-
-        [JsonProperty("private_gists")]
-        public int PrivateGists { get; set; }
-
-        [JsonProperty("disk_usage")]
-        public int DiskUsage { get; set; }
-
-        public int Collaborators { get; set; }
-
-        public PlanInfo Plan { get; set; }
-
-        public class PlanInfo
+        public User(UserData userData, HttpClient client)
+            : base(client, userData.Url)
         {
-            public string Name { get; set; }
-            public int Space { get; set; }
-            public int Collaborators { get; set; }
+            this.userData = userData;
+        }
 
-            [JsonProperty("private_repos")]
-            public int PrivateRepos { get; set; }
+        #region Data get/set
+        public string Login { get { return userData.Login; } }
+
+        public int Id { get { return userData.Id; } }
+
+        public string AvatarUrl { get { return userData.AvatarUrl; } }
+
+        public string GravatarId { get { return userData.GravatarId;  } }
+
+        public string Url { get { return userData.Url; } }
+
+        public string Name { get { return userData.Name; } }
+
+        public string Company { get { return userData.Company; } }
+
+        public string Blog { get { return userData.Blog; } }
+
+        public string Location { get { return userData.Location; } }
+
+        public string Email { get { return userData.Email; } }
+
+        public bool Hireable { get { return userData.Hireable; } }
+
+        public string Bio { get { return userData.Bio; } }
+
+        public int PublicRepos { get { return userData.PublicRepos; } }
+
+        public int PublicGists { get { return userData.PublicGists; } }
+
+        public int Followers { get { return userData.Followers; } }
+
+        public int Following { get { return userData.Following; } }
+
+        public string HtmlUrl { get { return userData.HtmlUrl; } }
+
+        public DateTimeOffset CreatedAt { get { return userData.CreatedAt; } }
+
+        public string Type { get { return userData.Type; } }
+
+        public int TotalPrivateRepos { get { return userData.TotalPrivateRepos; } }
+
+        public int OwnedPrivateRepos { get { return userData.OwnedPrivateRepos; } }
+
+        public int PrivateGists { get { return userData.PrivateGists; } }
+
+        public int DiskUsage { get { return userData.DiskUsage; } }
+
+        public int Collaborators { get { return userData.Collaborators; } }
+
+        public string PlanName { get { return userData.Plan.Name; } }
+        public int PlanSpace { get { return userData.Plan.Space; } }
+        public int PlanCollaborators { get { return userData.Plan.Collaborators; } }
+        public int PlanPrivateRepos { get { return userData.Plan.PrivateRepos; } }
+        #endregion
+
+        public IEnumerable<UserOrganization> GetOrgs()
+        {
+            var response = GetResponse("/orgs", HttpMethod.Get);
+            return response.Content.ReadAsAsync<List<UserOrgData>>().Result
+                .Select(od => new UserOrganization(od, Client))
+                .ToList();
         }
     }
 }

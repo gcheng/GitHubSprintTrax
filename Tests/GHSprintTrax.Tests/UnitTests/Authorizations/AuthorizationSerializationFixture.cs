@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using GHSprintTrax.GithubApi;
-using GHSprintTrax.GithubApi.RequestBodyTypes;
+using GHSprintTrax.GithubApi.SerializationTypes;
 using GHSprintTrax.Tests.TestSupport;
 using Newtonsoft.Json;
 using Xunit;
@@ -87,7 +87,7 @@ namespace GHSprintTrax.Tests.UnitTests.Authorizations
   ""created_at"": ""2011-09-06T17:26:27Z""
 }";
 
-            var deserialized = JsonConvert.DeserializeObject<Authorization>(sampleAuthorization);
+            var deserialized = JsonConvert.DeserializeObject<AuthorizationData>(sampleAuthorization);
 
             Assert.Equal(1, deserialized.Id);
             Assert.Equal("https://api.github.com/authorizations/1", deserialized.Url);

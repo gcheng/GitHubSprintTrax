@@ -63,14 +63,18 @@
     <Compile Include="GithubService.cs" />
     <Compile Include="IAuthenticatedUserAPI.cs" />
     <Compile Include="IAuthorizationAPI.cs" />
-    <Compile Include="RequestBodyTypes\CreateAuthorizationRequestBody.cs" />
+    <Compile Include="SerializationTypes\AuthorizationData.cs" />
+    <Compile Include="SerializationTypes\CreateAuthorizationRequestBody.cs" />
     <Compile Include="IUserAPI.cs" />
     <Compile Include="MessageHandlers\BasicAuthHandler.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="MessageHandlers\ConsoleLoggingHandler.cs" />
     <Compile Include="MessageHandlers\OAuth2Handler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SerializationTypes\UserData.cs" />
+    <Compile Include="SerializationTypes\UserOrgData.cs" />
     <Compile Include="User.cs" />
+    <Compile Include="UserOrganization.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

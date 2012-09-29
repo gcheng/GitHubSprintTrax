@@ -1,4 +1,7 @@
-﻿using System.Net.Http;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http;
+using GHSprintTrax.GithubApi.SerializationTypes;
 
 namespace GHSprintTrax.GithubApi.EntityImplementations
 {
@@ -12,7 +15,7 @@ namespace GHSprintTrax.GithubApi.EntityImplementations
         public User GetInfo()
         {
             var response = GetResponse("", HttpMethod.Get);
-            return response.Content.ReadAsAsync<User>().Result;
+            return new User(response.Content.ReadAsAsync<UserData>().Result, Client);
         }
     }
 }

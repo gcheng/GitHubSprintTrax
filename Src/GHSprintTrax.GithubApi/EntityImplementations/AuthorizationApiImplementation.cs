@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
-using System.Text;
-using GHSprintTrax.GithubApi.RequestBodyTypes;
+using GHSprintTrax.GithubApi.SerializationTypes;
 
 namespace GHSprintTrax.GithubApi.EntityImplementations
 {
@@ -23,20 +21,22 @@ namespace GHSprintTrax.GithubApi.EntityImplementations
             }
 
             HttpResponseMessage response = GetResponse("/authorizations", HttpMethod.Post, request);
-            return response.Content.ReadAsAsync<Authorization>().Result;
+            var authData = response.Content.ReadAsAsync<AuthorizationData>().Result;
+            return new Authorization(authData);
         }
 
         public Authorization GetAuthorization(int authId)
         {
             HttpResponseMessage response = GetResponse(string.Format("/authorizations/{0}", authId), HttpMethod.Get);
-            return response.Content.ReadAsAsync<Authorization>().Result;
+            return new Authorization(response.Content.ReadAsAsync<AuthorizationData>().Result);
         }
 
         public IEnumerable<Authorization> ListAuthorizations()
         {
             HttpResponseMessage response = GetResponse("/authorizations", HttpMethod.Get);
-            List<Authorization> results = response.Content.ReadAsAsync<List<Authorization>>().Result;
-            return results;
+            return response.Content.ReadAsAsync<List<AuthorizationData>>().Result
+                .Select(ad => new Authorization(ad))
+                .ToList();
         }
 
         public void DeleteAuthorization(int id)
