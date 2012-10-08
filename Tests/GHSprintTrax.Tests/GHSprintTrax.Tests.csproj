@@ -62,6 +62,7 @@
   <ItemGroup>
     <Compile Include="Experiments\BootstrapFixture.cs" />
     <Compile Include="IntegrationTests\Authorizations\AuthHandlerFixture.cs" />
+    <Compile Include="IntegrationTests\OrganizationsIntegrationTest.cs" />
     <Compile Include="IntegrationTests\OrganizationsFromUsersIntegrationTest.cs" />
     <Compile Include="IntegrationTests\UserIntegrationFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

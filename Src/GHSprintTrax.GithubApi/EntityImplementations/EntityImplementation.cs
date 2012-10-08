@@ -18,6 +18,8 @@ namespace GHSprintTrax.GithubApi.EntityImplementations
 
         protected HttpClient Client { get { return client; } }
 
+        protected string RootUri { get { return rootUri; } }
+
         private HttpRequestMessage CreateMessage(string uri, HttpMethod method)
         {
             var message = new HttpRequestMessage
