@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Net.Http;
 using GHSprintTrax.GithubApi;
 using GHSprintTrax.Tests.TestSupport;
 using Xunit;
@@ -25,6 +22,13 @@ namespace GHSprintTrax.Tests.IntegrationTests
             var org = service.GetOrganization("WindowsAzure");
 
             Assert.Equal("WindowsAzure", org.Login);
+            Assert.Equal("Windows Azure", org.Name);
+        }
+
+        [Fact]
+        public void GettingOrganizationThatDoesntExistsThrows()
+        {
+            Assert.Throws<HttpRequestException>(() => service.GetOrganization("NoSuchBlahBlahBlah"));
         }
     }
 }
