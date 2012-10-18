@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Net.Http;
-using System.Text;
 using GHSprintTrax.GithubApi.EntityImplementations;
 using GHSprintTrax.GithubApi.SerializationTypes;
 
@@ -62,7 +60,7 @@ namespace GHSprintTrax.GithubApi
         {
             var response = GetResponse("/milestones", HttpMethod.Get);
             return response.Content.ReadAsAsync<List<MilestoneData>>().Result
-                .Select(md => new Milestone(md)).ToList();
+                .Select(md => new Milestone(md, this)).ToList();
 
         }
 
@@ -73,7 +71,7 @@ namespace GHSprintTrax.GithubApi
  
             var response = GetResponse("/issues", queryParameters);
             return response.Content.ReadAsAsync<List<IssueData>>().Result
-                .Select(id => new Issue(id)).ToList();
+                .Select(id => new Issue(id, this)).ToList();
         }
     }
 }

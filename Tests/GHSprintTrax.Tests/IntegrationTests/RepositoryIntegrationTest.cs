@@ -48,7 +48,7 @@ namespace GHSprintTrax.Tests.IntegrationTests
         {
             Milestone milestone1 = repo.GetMilestones().First(m => m.Title == "Milestone 1");
 
-            List<Issue> issues = repo.GetIssues(milestone1).ToList();
+            List<Issue> issues = milestone1.GetIssues().ToList();
 
             Assert.True(issues.Count >= 1);
 

@@ -9,10 +9,12 @@ namespace GHSprintTrax.GithubApi
     public class Milestone
     {
         private readonly MilestoneData data;
+        private readonly Repository repo;
 
-        internal Milestone(MilestoneData data)
+        internal Milestone(MilestoneData data, Repository repo)
         {
             this.data = data;
+            this.repo = repo;
         }
 
         #region milestone properties
@@ -38,5 +40,9 @@ namespace GHSprintTrax.GithubApi
 
         #endregion
 
+        public IEnumerable<Issue> GetIssues()
+        {
+            return repo.GetIssues(this);
+        }
     }
 }

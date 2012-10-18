@@ -9,10 +9,12 @@ namespace GHSprintTrax.GithubApi
     public class Issue
     {
         private IssueData data;
+        private readonly Repository repo;
 
-        internal Issue(IssueData data)
+        internal Issue(IssueData data, Repository repo)
         {
             this.data = data;
+            this.repo = repo;
         }
 
         #region get properties
@@ -30,7 +32,7 @@ namespace GHSprintTrax.GithubApi
             get { return data.Labels.Select(ld => ld.Name).ToList(); }
         }
 
-        public Milestone Milestone {get { return new Milestone(data.Milestone); } }
+        public Milestone Milestone {get { return new Milestone(data.Milestone, repo); } }
 
         #endregion
     }
