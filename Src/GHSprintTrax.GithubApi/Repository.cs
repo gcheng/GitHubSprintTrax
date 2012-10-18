@@ -65,5 +65,15 @@ namespace GHSprintTrax.GithubApi
                 .Select(md => new Milestone(md)).ToList();
 
         }
+
+        public IEnumerable<Issue> GetIssues(Milestone milestone)
+        {
+            var queryParameters = new NameValueCollection();
+            queryParameters["milestone"] = milestone.Number.ToString();
+ 
+            var response = GetResponse("/issues", queryParameters);
+            return response.Content.ReadAsAsync<List<IssueData>>().Result
+                .Select(id => new Issue(id)).ToList();
+        }
     }
 }

@@ -42,5 +42,20 @@ namespace GHSprintTrax.Tests.IntegrationTests
             Assert.True(milestones.Select(m => m.Title).Contains("Milestone 1"));
             Assert.True(milestones.Select(m => m.Title).Contains("Milestone 2"));
         }
+
+        [Fact]
+        public void CanGetIssuesForMilestone()
+        {
+            Milestone milestone1 = repo.GetMilestones().First(m => m.Title == "Milestone 1");
+
+            List<Issue> issues = repo.GetIssues(milestone1).ToList();
+
+            Assert.True(issues.Count >= 1);
+
+            Issue expectedIssue = issues.First(i => i.Title == "Create authorization should default to async");
+
+            Assert.Equal(ownerName, expectedIssue.UserLogin);
+            Assert.True(expectedIssue.LabelNames.Contains("enhancement"));
+        }
     }
 }
