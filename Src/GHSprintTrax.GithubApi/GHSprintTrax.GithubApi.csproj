@@ -64,6 +64,7 @@
     <Compile Include="GithubService.cs" />
     <Compile Include="IAuthenticatedUserAPI.cs" />
     <Compile Include="IAuthorizationAPI.cs" />
+    <Compile Include="Issue.cs" />
     <Compile Include="Milestone.cs" />
     <Compile Include="Organization.cs" />
     <Compile Include="Repository.cs" />
@@ -75,8 +76,10 @@
     <Compile Include="MessageHandlers\ConsoleLoggingHandler.cs" />
     <Compile Include="MessageHandlers\OAuth2Handler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SerializationTypes\IssueData.cs" />
     <Compile Include="SerializationTypes\MilestoneData.cs" />
     <Compile Include="SerializationTypes\OrganizationData.cs" />
+    <Compile Include="SerializationTypes\RelatedUserData.cs" />
     <Compile Include="SerializationTypes\RepositoryData.cs" />
     <Compile Include="SerializationTypes\UserData.cs" />
     <Compile Include="SerializationTypes\UserOrgData.cs" />
