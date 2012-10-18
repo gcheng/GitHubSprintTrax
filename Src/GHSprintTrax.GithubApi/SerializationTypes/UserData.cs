@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace GHSprintTrax.GithubApi.SerializationTypes
 {
-    public class UserData
+    class UserData
     {
         public string Login { get; set; }
 

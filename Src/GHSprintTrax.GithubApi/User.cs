@@ -14,7 +14,7 @@ namespace GHSprintTrax.GithubApi
     {
         private readonly UserData userData;
 
-        public User(UserData userData, HttpClient client)
+        internal User(UserData userData, HttpClient client)
             : base(client, userData.Url)
         {
             this.userData = userData;

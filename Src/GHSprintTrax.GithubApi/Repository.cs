@@ -13,7 +13,7 @@ namespace GHSprintTrax.GithubApi
     {
         private readonly RepositoryData repoData;
 
-        public Repository(RepositoryData repoData, HttpClient client)
+        internal Repository(RepositoryData repoData, HttpClient client)
             : base(client, repoData.Url)
         {
             this.repoData = repoData;

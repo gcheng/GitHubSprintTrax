@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace GHSprintTrax.GithubApi.SerializationTypes
 {
-    public class OrganizationData : UserOrgData
+    class OrganizationData : UserOrgData
     {
         public string Name { get; set; }
         public string Company { get; set; }

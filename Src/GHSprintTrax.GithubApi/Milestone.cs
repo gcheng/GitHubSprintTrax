@@ -10,7 +10,7 @@ namespace GHSprintTrax.GithubApi
     {
         private readonly MilestoneData data;
 
-        public Milestone(MilestoneData data)
+        internal Milestone(MilestoneData data)
         {
             this.data = data;
         }

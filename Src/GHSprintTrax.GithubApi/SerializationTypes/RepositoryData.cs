@@ -2,7 +2,7 @@
 
 namespace GHSprintTrax.GithubApi.SerializationTypes
 {
-    public class RepositoryData
+    class RepositoryData
     {
         public string Url { get; set; }
 

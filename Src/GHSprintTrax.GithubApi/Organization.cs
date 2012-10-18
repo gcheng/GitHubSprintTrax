@@ -9,7 +9,7 @@ namespace GHSprintTrax.GithubApi
     {
         private readonly OrganizationData orgData;
 
-        public Organization(OrganizationData orgData, HttpClient client) 
+        internal Organization(OrganizationData orgData, HttpClient client) 
             : base(client, orgData.Url)
         {
             this.orgData = orgData;

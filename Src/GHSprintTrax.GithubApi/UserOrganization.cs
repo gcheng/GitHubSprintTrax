@@ -8,7 +8,7 @@ namespace GHSprintTrax.GithubApi
     {
         private readonly UserOrgData orgData;
 
-        public UserOrganization(UserOrgData orgData, HttpClient client)
+        internal UserOrganization(UserOrgData orgData, HttpClient client)
             : base(client, orgData.Url)
         {
             this.orgData = orgData;
