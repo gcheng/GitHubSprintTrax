@@ -28,5 +28,12 @@ namespace GHSprintTrax.GithubApi
         {
             get { return new UserApiImplementation(Client, RootUri + "/users"); }
         }
+
+        public Repository GetRepository(string ownerLogin, string repoName)
+        {
+            string uri = string.Format("/repos/{0}/{1}", ownerLogin, repoName);
+            var response = GetResponse(uri, HttpMethod.Get);
+            return new Repository(response.Content.ReadAsAsync<RepositoryData>().Result, Client);
+        }
     }
 }
