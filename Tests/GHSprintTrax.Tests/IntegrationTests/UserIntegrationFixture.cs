@@ -9,11 +9,15 @@ namespace GHSprintTrax.Tests.IntegrationTests
         private Authorization authorization;
         private GithubService github;
 
+        #region IUseFixture<GetAuthorizationFixtureSetup> Members
+
         public void SetFixture(GetAuthorizationFixtureSetup data)
         {
             authorization = data.GetAuthorization(Username, Password);
             github = new GithubService(authorization);
         }
+
+        #endregion
 
         [Fact]
         public void CanRetrieveAuthenticatedUser()

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using GHSprintTrax.GithubApi.SerializationTypes;
-using Newtonsoft.Json;
 
 namespace GHSprintTrax.GithubApi
 {
@@ -20,26 +19,54 @@ namespace GHSprintTrax.GithubApi
             scopes = new List<string>(authData.Scopes);
         }
 
-        public int Id { get { return authData.Id; } }
-        public string Url { get { return authData.Url; } }
+        public int Id
+        {
+            get { return authData.Id; }
+        }
+
+        public string Url
+        {
+            get { return authData.Url; }
+        }
 
         public IList<string> Scopes
         {
             get { return scopes; }
         }
 
-        public string Token { get { return authData.Token; } }
-        
-        public string AppName { get { return authData.App.Name; } }
+        public string Token
+        {
+            get { return authData.Token; }
+        }
 
-        public string AppUrl { get { return authData.App.Url; } }
+        public string AppName
+        {
+            get { return authData.App.Name; }
+        }
 
-        public string Note { get { return authData.Note; } }
+        public string AppUrl
+        {
+            get { return authData.App.Url; }
+        }
 
-        public string NoteUrl { get { return authData.NoteUrl; } }
+        public string Note
+        {
+            get { return authData.Note; }
+        }
 
-        public DateTimeOffset UpdatedAt { get { return authData.UpdatedAt; } }
+        public string NoteUrl
+        {
+            get { return authData.NoteUrl; }
+        }
 
-        public DateTimeOffset CreatedAt { get { return authData.CreatedAt; } }
+        public DateTimeOffset UpdatedAt
+        {
+            get { return authData.UpdatedAt; }
+        }
+
+        public DateTimeOffset CreatedAt
+        {
+            get { return authData.CreatedAt; }
+        }
     }
 }

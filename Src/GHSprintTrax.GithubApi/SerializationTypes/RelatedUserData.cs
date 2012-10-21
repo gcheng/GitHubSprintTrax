@@ -6,8 +6,10 @@ namespace GHSprintTrax.GithubApi.SerializationTypes
     {
         public string Login { get; set; }
         public int Id { get; set; }
+
         [JsonProperty("avatar_url")]
         public string AvatarUrl { get; set; }
+
         [JsonProperty("gravatar_id")]
         public string GravatarId { get; set; }
 

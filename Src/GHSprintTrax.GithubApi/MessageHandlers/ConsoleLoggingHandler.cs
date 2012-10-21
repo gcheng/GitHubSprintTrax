@@ -9,10 +9,10 @@ namespace GHSprintTrax.GithubApi.MessageHandlers
         public ConsoleLoggingHandler(HttpMessageHandler nextHandler = null)
             : base(nextHandler ?? new HttpClientHandler())
         {
-            
         }
 
-        protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+        protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request,
+            CancellationToken cancellationToken)
         {
             return base.SendAsync(request, cancellationToken);
         }

@@ -8,15 +8,16 @@ namespace GHSprintTrax.Tests.IntegrationTests
 {
     public class RepositoryIntegrationTest
         : UserPasswordUsingFixture,
-        IUseFixture<GetAuthorizationFixtureSetup>
+            IUseFixture<GetAuthorizationFixtureSetup>
     {
-        const string repoName = "GHSprintTrax";
-        const string ownerName = "christav";
-        
+        private const string repoName = "GHSprintTrax";
+        private const string ownerName = "christav";
+
         private Authorization authorization;
         private GithubService github;
         private Repository repo;
 
+        #region IUseFixture<GetAuthorizationFixtureSetup> Members
 
         public void SetFixture(GetAuthorizationFixtureSetup data)
         {
@@ -24,6 +25,8 @@ namespace GHSprintTrax.Tests.IntegrationTests
             github = new GithubService(authorization);
             repo = github.GetRepository(ownerName, repoName);
         }
+
+        #endregion
 
         [Fact]
         public void CanRetrieveRepositoryByName()

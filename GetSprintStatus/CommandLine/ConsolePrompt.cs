@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace GetSprintStatus.CommandLine
 {
-    class ConsolePrompt
+    internal class ConsolePrompt
     {
         public static string Prompt(string message)
         {
@@ -19,7 +16,7 @@ namespace GetSprintStatus.CommandLine
 
             string secret = "";
 
-            var key = Console.ReadKey(true);
+            ConsoleKeyInfo key = Console.ReadKey(true);
             while (key.Key != ConsoleKey.Enter)
             {
                 if (key.Key == ConsoleKey.Backspace && secret.Length > 0)
@@ -38,5 +35,4 @@ namespace GetSprintStatus.CommandLine
             return secret;
         }
     }
-
 }

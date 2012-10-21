@@ -19,57 +19,108 @@ namespace GHSprintTrax.GithubApi
 
         #region get/set repo data
 
-        public string Url { get { return repoData.Url; } }
+        public string Url
+        {
+            get { return repoData.Url; }
+        }
 
-        public string HtmlUrl { get { return repoData.HtmlUrl; } }
+        public string HtmlUrl
+        {
+            get { return repoData.HtmlUrl; }
+        }
 
-        public string CloneUrl { get { return repoData.CloneUrl; } }
+        public string CloneUrl
+        {
+            get { return repoData.CloneUrl; }
+        }
 
-        public string GitUrl { get { return repoData.GitUrl; } }
+        public string GitUrl
+        {
+            get { return repoData.GitUrl; }
+        }
 
-        public string SshUrl { get { return repoData.SshUrl; } }
+        public string SshUrl
+        {
+            get { return repoData.SshUrl; }
+        }
 
-        public string SvnUrl { get { return repoData.SvnUrl; } }
+        public string SvnUrl
+        {
+            get { return repoData.SvnUrl; }
+        }
 
-        public string MirrorUrl { get { return repoData.MirrorUrl; } }
+        public string MirrorUrl
+        {
+            get { return repoData.MirrorUrl; }
+        }
 
-        public int Id { get { return repoData.Id; } }
+        public int Id
+        {
+            get { return repoData.Id; }
+        }
 
-        public string OwnerLogin { get { return repoData.Owner.Login; } }
+        public string OwnerLogin
+        {
+            get { return repoData.Owner.Login; }
+        }
 
-        public int OwnerId { get { return repoData.Owner.Id; } }
+        public int OwnerId
+        {
+            get { return repoData.Owner.Id; }
+        }
 
-        public string OwnerAvatarUrl { get { return repoData.Owner.AvatarUrl; } }
+        public string OwnerAvatarUrl
+        {
+            get { return repoData.Owner.AvatarUrl; }
+        }
 
-        public string OwnerGravatarId { get { return repoData.Owner.GravatarId; } }
+        public string OwnerGravatarId
+        {
+            get { return repoData.Owner.GravatarId; }
+        }
 
-        public string OwnerUrl { get { return repoData.Owner.Url; } }
+        public string OwnerUrl
+        {
+            get { return repoData.Owner.Url; }
+        }
 
-        public string Name { get { return repoData.Name; } }
+        public string Name
+        {
+            get { return repoData.Name; }
+        }
 
-        public string FullName { get { return repoData.FullName; } }
+        public string FullName
+        {
+            get { return repoData.FullName; }
+        }
 
-        public string Description { get { return repoData.Description; } }
+        public string Description
+        {
+            get { return repoData.Description; }
+        }
 
         // TODO: Build out other properties as we get to them
 
-        public bool HasIssues { get { return repoData.HasIssues; } }
+        public bool HasIssues
+        {
+            get { return repoData.HasIssues; }
+        }
+
         #endregion
 
         public IEnumerable<Milestone> GetMilestones()
         {
-            var response = GetResponse("/milestones", HttpMethod.Get);
+            HttpResponseMessage response = GetResponse("/milestones", HttpMethod.Get);
             return response.Content.ReadAsAsync<List<MilestoneData>>().Result
                 .Select(md => new Milestone(md, this)).ToList();
-
         }
 
         public IEnumerable<Issue> GetIssues(Milestone milestone)
         {
             var queryParameters = new NameValueCollection();
             queryParameters["milestone"] = milestone.Number.ToString();
- 
-            var response = GetResponse("/issues", queryParameters);
+
+            HttpResponseMessage response = GetResponse("/issues", queryParameters);
             return response.Content.ReadAsAsync<List<IssueData>>().Result
                 .Select(id => new Issue(id, this)).ToList();
         }

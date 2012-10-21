@@ -21,63 +21,152 @@ namespace GHSprintTrax.GithubApi
         }
 
         #region Data get/set
-        public string Login { get { return userData.Login; } }
 
-        public int Id { get { return userData.Id; } }
+        public string Login
+        {
+            get { return userData.Login; }
+        }
 
-        public string AvatarUrl { get { return userData.AvatarUrl; } }
+        public int Id
+        {
+            get { return userData.Id; }
+        }
 
-        public string GravatarId { get { return userData.GravatarId;  } }
+        public string AvatarUrl
+        {
+            get { return userData.AvatarUrl; }
+        }
 
-        public string Url { get { return userData.Url; } }
+        public string GravatarId
+        {
+            get { return userData.GravatarId; }
+        }
 
-        public string Name { get { return userData.Name; } }
+        public string Url
+        {
+            get { return userData.Url; }
+        }
 
-        public string Company { get { return userData.Company; } }
+        public string Name
+        {
+            get { return userData.Name; }
+        }
 
-        public string Blog { get { return userData.Blog; } }
+        public string Company
+        {
+            get { return userData.Company; }
+        }
 
-        public string Location { get { return userData.Location; } }
+        public string Blog
+        {
+            get { return userData.Blog; }
+        }
 
-        public string Email { get { return userData.Email; } }
+        public string Location
+        {
+            get { return userData.Location; }
+        }
 
-        public bool Hireable { get { return userData.Hireable; } }
+        public string Email
+        {
+            get { return userData.Email; }
+        }
 
-        public string Bio { get { return userData.Bio; } }
+        public bool Hireable
+        {
+            get { return userData.Hireable; }
+        }
 
-        public int PublicRepos { get { return userData.PublicRepos; } }
+        public string Bio
+        {
+            get { return userData.Bio; }
+        }
 
-        public int PublicGists { get { return userData.PublicGists; } }
+        public int PublicRepos
+        {
+            get { return userData.PublicRepos; }
+        }
 
-        public int Followers { get { return userData.Followers; } }
+        public int PublicGists
+        {
+            get { return userData.PublicGists; }
+        }
 
-        public int Following { get { return userData.Following; } }
+        public int Followers
+        {
+            get { return userData.Followers; }
+        }
 
-        public string HtmlUrl { get { return userData.HtmlUrl; } }
+        public int Following
+        {
+            get { return userData.Following; }
+        }
 
-        public DateTimeOffset CreatedAt { get { return userData.CreatedAt; } }
+        public string HtmlUrl
+        {
+            get { return userData.HtmlUrl; }
+        }
 
-        public string Type { get { return userData.Type; } }
+        public DateTimeOffset CreatedAt
+        {
+            get { return userData.CreatedAt; }
+        }
 
-        public int TotalPrivateRepos { get { return userData.TotalPrivateRepos; } }
+        public string Type
+        {
+            get { return userData.Type; }
+        }
 
-        public int OwnedPrivateRepos { get { return userData.OwnedPrivateRepos; } }
+        public int TotalPrivateRepos
+        {
+            get { return userData.TotalPrivateRepos; }
+        }
 
-        public int PrivateGists { get { return userData.PrivateGists; } }
+        public int OwnedPrivateRepos
+        {
+            get { return userData.OwnedPrivateRepos; }
+        }
 
-        public int DiskUsage { get { return userData.DiskUsage; } }
+        public int PrivateGists
+        {
+            get { return userData.PrivateGists; }
+        }
 
-        public int Collaborators { get { return userData.Collaborators; } }
+        public int DiskUsage
+        {
+            get { return userData.DiskUsage; }
+        }
 
-        public string PlanName { get { return userData.Plan.Name; } }
-        public int PlanSpace { get { return userData.Plan.Space; } }
-        public int PlanCollaborators { get { return userData.Plan.Collaborators; } }
-        public int PlanPrivateRepos { get { return userData.Plan.PrivateRepos; } }
+        public int Collaborators
+        {
+            get { return userData.Collaborators; }
+        }
+
+        public string PlanName
+        {
+            get { return userData.Plan.Name; }
+        }
+
+        public int PlanSpace
+        {
+            get { return userData.Plan.Space; }
+        }
+
+        public int PlanCollaborators
+        {
+            get { return userData.Plan.Collaborators; }
+        }
+
+        public int PlanPrivateRepos
+        {
+            get { return userData.Plan.PrivateRepos; }
+        }
+
         #endregion
 
         public IEnumerable<UserOrganization> GetOrgs()
         {
-            var response = GetResponse("/orgs", HttpMethod.Get);
+            HttpResponseMessage response = GetResponse("/orgs", HttpMethod.Get);
             return response.Content.ReadAsAsync<List<UserOrgData>>().Result
                 .Select(od => new UserOrganization(od, Client))
                 .ToList();

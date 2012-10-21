@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
+﻿using System.IO;
 
 namespace GetSprintStatus
 {
-    class Formatter
+    internal class Formatter
     {
         private readonly TextWriter output;
 
@@ -37,7 +33,7 @@ namespace GetSprintStatus
         {
             bool errorHeaderWritten = false;
 
-            foreach (var error in stats.Errors)
+            foreach (ParseError error in stats.Errors)
             {
                 if (!errorHeaderWritten)
                 {
@@ -59,10 +55,9 @@ namespace GetSprintStatus
             int titleLength = error.Issue.Title.Length;
             titleLength = titleLength > 65 ? 65 : titleLength;
 
-            output.WriteLine("{0}: {1}", error.Issue.Number, error.Issue.Title.Substring(0,titleLength));
+            output.WriteLine("{0}: {1}", error.Issue.Number, error.Issue.Title.Substring(0, titleLength));
             output.WriteLine(error.Reason);
             output.WriteLine();
         }
-
     }
 }

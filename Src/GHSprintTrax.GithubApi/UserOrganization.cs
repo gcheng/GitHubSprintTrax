@@ -14,9 +14,24 @@ namespace GHSprintTrax.GithubApi
             this.orgData = orgData;
         }
 
-        public string AvatarUrl { get { return orgData.AvatarUrl; } }
-        public string Login { get { return orgData.Login; } }
-        public int Id { get { return orgData.Id; } }
-        public string Url { get { return orgData.Url; } }
+        public string AvatarUrl
+        {
+            get { return orgData.AvatarUrl; }
+        }
+
+        public string Login
+        {
+            get { return orgData.Login; }
+        }
+
+        public int Id
+        {
+            get { return orgData.Id; }
+        }
+
+        public string Url
+        {
+            get { return orgData.Url; }
+        }
     }
 }

@@ -8,11 +8,13 @@ namespace GHSprintTrax.Tests.TestSupport
         private const string UserNameVariable = "GHSPRINTTRAX_USER";
         private const string PasswordVariable = "GHSPRINTTRAX_PASSWORD";
 
-        protected string Username { 
+        protected string Username
+        {
             get { return Environment.GetEnvironmentVariable(UserNameVariable); }
         }
-            
-        protected string Password {
+
+        protected string Password
+        {
             get { return Environment.GetEnvironmentVariable(PasswordVariable); }
         }
     }

@@ -1,20 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using GetSprintStatus.CommandLine;
+﻿using System.Linq;
 using GetSprintStatus.Credentials;
 using GHSprintTrax.GithubApi;
 
 namespace GetSprintStatus
 {
-    static class AuthManager
+    internal static class AuthManager
     {
         private const string GithubAuthNote = "SprintReader-4eb63d45-07cd-4420-915a-26ced4da0d52";
-    
+
         public static Authorization GetAuthorization(ICredentialProvider credentialProvider)
         {
-            var credentials = credentialProvider.GetCredentials();
+            Credentials.Credentials credentials = credentialProvider.GetCredentials();
 
             var authService = new AuthorizationService(credentials.Username, credentials.Password);
 
@@ -35,8 +31,8 @@ namespace GetSprintStatus
 
         private static Authorization CreateSprintStatAuthorization(AuthorizationService authService)
         {
-            Authorization auth = authService.CreateAuthorization(note: GithubAuthNote, 
-                scopes: new[] { "repo", "public_repo", "repo:status" });
+            Authorization auth = authService.CreateAuthorization(note: GithubAuthNote,
+                scopes: new[] {"repo", "public_repo", "repo:status"});
             return auth;
         }
     }

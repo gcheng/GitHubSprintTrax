@@ -15,15 +15,19 @@ namespace GHSprintTrax.Tests.IntegrationTests.Authorizations
             authService = new AuthorizationService(Username, Password);
         }
 
+        #region IUseFixture<AuthorizationCleanup> Members
+
         public void SetFixture(AuthorizationCleanup data)
         {
             data.Initialize(Username, Password, "test");
         }
 
+        #endregion
+
         [Fact]
         public void CanCreateAnAuthorization()
         {
-            var newAuthorization = authService.CreateAuthorization("testAuthorization",
+            Authorization newAuthorization = authService.CreateAuthorization("testAuthorization",
                 "urn:example:testAuthorization");
 
             Assert.Equal("testAuthorization", newAuthorization.Note);
@@ -33,19 +37,18 @@ namespace GHSprintTrax.Tests.IntegrationTests.Authorizations
         [Fact]
         public void CanCreateAuthorizationWithScope()
         {
-            var newAuthorization = authService.CreateAuthorization("testAuthorization2-with scope",
-            scopes: new [] { "repo", "gist" });
+            Authorization newAuthorization = authService.CreateAuthorization("testAuthorization2-with scope",
+                scopes: new[] {"repo", "gist"});
 
             Assert.Contains("repo", newAuthorization.Scopes);
             Assert.Contains("gist", newAuthorization.Scopes);
-
         }
 
         [Fact]
         public void CanRetrieveAnAuthorizationById()
         {
             const string expectedNote = "testAuthorization2-retrieval";
-            var authToRetrieve = authService.CreateAuthorization(expectedNote);
+            Authorization authToRetrieve = authService.CreateAuthorization(expectedNote);
 
             Authorization retrieved = authService.GetAuthorization(authToRetrieve.Id);
 
@@ -56,8 +59,8 @@ namespace GHSprintTrax.Tests.IntegrationTests.Authorizations
         [Fact]
         public void CanRetrieveAllAuthorizations()
         {
-            var expectedNotes = new [] { "testAuthorization3-retrieval", "testAuthorization4-retrieval" };
-            foreach (var note in expectedNotes)
+            var expectedNotes = new[] {"testAuthorization3-retrieval", "testAuthorization4-retrieval"};
+            foreach (string note in expectedNotes)
             {
                 authService.CreateAuthorization(note);
             }

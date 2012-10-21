@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace GHSprintTrax.GithubApi.SerializationTypes
 {
-    class UserData
+    internal class UserData
     {
         public string Login { get; set; }
 
@@ -65,6 +65,8 @@ namespace GHSprintTrax.GithubApi.SerializationTypes
 
         public PlanInfo Plan { get; set; }
 
+        #region Nested type: PlanInfo
+
         public class PlanInfo
         {
             public string Name { get; set; }
@@ -74,5 +76,7 @@ namespace GHSprintTrax.GithubApi.SerializationTypes
             [JsonProperty("private_repos")]
             public int PrivateRepos { get; set; }
         }
+
+        #endregion
     }
 }

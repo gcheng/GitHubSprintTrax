@@ -8,11 +8,7 @@ namespace GHSprintTrax.GithubApi.SerializationTypes
     {
         public int Id { get; set; }
         public string Url { get; set; }
-        public IList<string> Scopes
-        {
-            get;
-            set;
-        }
+        public IList<string> Scopes { get; set; }
 
         public string Token { get; set; }
         public AppInfo App { get; set; }
@@ -27,10 +23,14 @@ namespace GHSprintTrax.GithubApi.SerializationTypes
         [JsonProperty("created_at")]
         public DateTimeOffset CreatedAt { get; set; }
 
+        #region Nested type: AppInfo
+
         public class AppInfo
         {
             public string Name { get; set; }
             public string Url { get; set; }
         }
+
+        #endregion
     }
 }

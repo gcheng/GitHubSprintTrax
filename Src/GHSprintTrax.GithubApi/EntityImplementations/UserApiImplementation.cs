@@ -2,7 +2,7 @@
 
 namespace GHSprintTrax.GithubApi.EntityImplementations
 {
-    class UserApiImplementation : EntityImplementation, IUserAPI
+    internal class UserApiImplementation : EntityImplementation, IUserAPI
     {
         public UserApiImplementation(HttpClient client, string rootUri)
             : base(client, rootUri)
@@ -11,7 +11,7 @@ namespace GHSprintTrax.GithubApi.EntityImplementations
 
         public User GetAuthenticatedUser()
         {
-            var response = GetResponse("/user", HttpMethod.Get);
+            HttpResponseMessage response = GetResponse("/user", HttpMethod.Get);
             return response.Content.ReadAsAsync<User>().Result;
         }
     }

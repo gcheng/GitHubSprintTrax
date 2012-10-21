@@ -1,5 +1,5 @@
-﻿using Xunit.Extensions;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
+using Xunit.Extensions;
 
 namespace GHSprintTrax.Tests.TestSupport
 {
@@ -23,12 +23,12 @@ namespace GHSprintTrax.Tests.TestSupport
 
         public static void Matches(this Assertions assert, params string[] tokens)
         {
-            var value = tokens[tokens.Length - 1];
-            var regex = string.Join("\\s*", tokens, 0, tokens.Length - 1);
+            string value = tokens[tokens.Length - 1];
+            string regex = string.Join("\\s*", tokens, 0, tokens.Length - 1);
 
             assert.True(Regex.IsMatch(value, regex),
                 string.Format("Expected string \"{0}\" to match regular expression \"{1}\"", value, regex)
-            );
+                );
         }
     }
 }

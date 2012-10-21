@@ -7,19 +7,23 @@ namespace GHSprintTrax.Tests.IntegrationTests
 {
     public class OrganizationsIntegrationTest
         : UserPasswordUsingFixture,
-        IUseFixture<GetAuthorizationFixtureSetup>
+            IUseFixture<GetAuthorizationFixtureSetup>
     {
         private GithubService service;
+
+        #region IUseFixture<GetAuthorizationFixtureSetup> Members
 
         public void SetFixture(GetAuthorizationFixtureSetup data)
         {
             service = new GithubService(data.GetAuthorization(Username, Password));
         }
 
+        #endregion
+
         [Fact]
         public void CanGetOrganizationByName()
         {
-            var org = service.GetOrganization("WindowsAzure");
+            Organization org = service.GetOrganization("WindowsAzure");
 
             Assert.Equal("WindowsAzure", org.Login);
             Assert.Equal("Windows Azure", org.Name);

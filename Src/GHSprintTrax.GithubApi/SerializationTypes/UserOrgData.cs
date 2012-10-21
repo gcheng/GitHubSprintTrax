@@ -2,7 +2,7 @@
 
 namespace GHSprintTrax.GithubApi.SerializationTypes
 {
-    class UserOrgData
+    internal class UserOrgData
     {
         [JsonProperty("avatar_url")]
         public string AvatarUrl { get; set; }

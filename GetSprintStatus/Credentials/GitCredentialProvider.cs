@@ -8,15 +8,17 @@ namespace GetSprintStatus.Credentials
     /// checks the current git credential helper for credentials, and
     /// gets them from there if configured.
     /// </summary>
-    class GitCredentialProvider : ICredentialProvider
+    internal class GitCredentialProvider : ICredentialProvider
     {
-        private Credentials credentials;
         private readonly string host;
+        private Credentials credentials;
 
         public GitCredentialProvider(string host)
         {
             this.host = host;
         }
+
+        #region ICredentialProvider Members
 
         public Credentials GetCredentials()
         {
@@ -26,6 +28,8 @@ namespace GetSprintStatus.Credentials
             }
             return credentials;
         }
+
+        #endregion
 
         private void ReadCredentialsFromGit()
         {

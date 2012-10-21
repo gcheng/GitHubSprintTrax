@@ -11,14 +11,18 @@ namespace GHSprintTrax.GithubApi
 
         public AuthorizationService(string user, string password)
         {
-            impl = new AuthorizationApiImplementation(new HttpClient(new BasicAuthHandler(user, password)), Constants.GithubUri);
+            impl = new AuthorizationApiImplementation(new HttpClient(new BasicAuthHandler(user, password)),
+                Constants.GithubUri);
         }
 
-        public Authorization CreateAuthorization(string note = null, string noteUri = null, IEnumerable<string> scopes = null)
+        #region IAuthorizationAPI Members
+
+        public Authorization CreateAuthorization(string note = null, string noteUri = null,
+            IEnumerable<string> scopes = null)
         {
             return impl.CreateAuthorization(note, noteUri, scopes);
         }
-        
+
         public Authorization GetAuthorization(int authId)
         {
             return impl.GetAuthorization(authId);
@@ -38,5 +42,7 @@ namespace GHSprintTrax.GithubApi
         {
             impl.DeleteAuthorization(authorization);
         }
+
+        #endregion
     }
 }

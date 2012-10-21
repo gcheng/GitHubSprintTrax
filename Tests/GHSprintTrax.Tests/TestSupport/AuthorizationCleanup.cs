@@ -14,6 +14,16 @@ namespace GHSprintTrax.Tests.TestSupport
         private string prefix;
 
 // ReSharper disable ParameterHidesMember
+
+        #region IDisposable Members
+
+        public void Dispose()
+        {
+            DeletePrefixedAuthorizations();
+        }
+
+        #endregion
+
         public void Initialize(string username, string password, string prefix)
 // ReSharper restore ParameterHidesMember
         {
@@ -25,14 +35,9 @@ namespace GHSprintTrax.Tests.TestSupport
             }
         }
 
-        public void Dispose()
-        {
-            DeletePrefixedAuthorizations();
-        }
-
         private void DeletePrefixedAuthorizations()
         {
-            foreach (var authorization in authClient.ListAuthorizations())
+            foreach (Authorization authorization in authClient.ListAuthorizations())
             {
                 if (authorization.Note != null && authorization.Note.StartsWith(prefix))
                 {

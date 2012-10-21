@@ -4,17 +4,17 @@ using GHSprintTrax.GithubApi;
 
 namespace GetSprintStatus
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
-            var credentialProvider = new CompositeCredentialProvider()
+            CompositeCredentialProvider credentialProvider = new CompositeCredentialProvider()
                 .Add(new GitCredentialProvider("github.com"))
                 .Add(new AskUserCredentialProvider());
 
-            var auth = AuthManager.GetAuthorization(credentialProvider);
+            Authorization auth = AuthManager.GetAuthorization(credentialProvider);
             var github = new GithubService(auth);
-            
+
             string ownerLogin = args[0];
             string repositoryName = args[1];
 

@@ -17,7 +17,8 @@ namespace GHSprintTrax.GithubApi.MessageHandlers
             authHeaderValue = CreateAuthHeader(username, password);
         }
 
-        protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+        protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request,
+            CancellationToken cancellationToken)
         {
             request.Headers.Authorization = new AuthenticationHeaderValue("Basic", authHeaderValue);
             return base.SendAsync(request, cancellationToken);
@@ -25,7 +26,7 @@ namespace GHSprintTrax.GithubApi.MessageHandlers
 
         private static string CreateAuthHeader(string username, string password)
         {
-            var bytes = Encoding.ASCII.GetBytes(username + ":" + password);
+            byte[] bytes = Encoding.ASCII.GetBytes(username + ":" + password);
             return Convert.ToBase64String(bytes);
         }
     }

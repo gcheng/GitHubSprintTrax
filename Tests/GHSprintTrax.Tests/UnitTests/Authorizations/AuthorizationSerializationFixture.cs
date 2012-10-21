@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using GHSprintTrax.GithubApi;
 using GHSprintTrax.GithubApi.SerializationTypes;
 using GHSprintTrax.Tests.TestSupport;
 using Newtonsoft.Json;
@@ -42,12 +41,13 @@ namespace GHSprintTrax.Tests.UnitTests.Authorizations
         {
             var body = new CreateAuthorizationRequestBody
             {
-                Scopes = new List<string> { "repo", "user", "gist"}
+                Scopes = new List<string> {"repo", "user", "gist"}
             };
 
             string serialized = JsonConvert.SerializeObject(body);
 
-            Assert.Matches("\\{", "\"scopes\"", ":", "\\[", "\"repo\"", ",", "\"user\"", ",", "\"gist\"", "]", serialized);
+            Assert.Matches("\\{", "\"scopes\"", ":", "\\[", "\"repo\"", ",", "\"user\"", ",", "\"gist\"", "]",
+                serialized);
         }
 
         [Fact]
@@ -70,7 +70,8 @@ namespace GHSprintTrax.Tests.UnitTests.Authorizations
         [Fact]
         public void SampleAuthorizationDeserializesCorrectly()
         {
-            const string sampleAuthorization = @"{
+            const string sampleAuthorization =
+                @"{
   ""id"": 1,
   ""url"": ""https://api.github.com/authorizations/1"",
   ""scopes"": [

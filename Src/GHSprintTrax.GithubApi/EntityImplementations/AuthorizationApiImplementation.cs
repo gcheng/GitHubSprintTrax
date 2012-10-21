@@ -5,23 +5,25 @@ using GHSprintTrax.GithubApi.SerializationTypes;
 
 namespace GHSprintTrax.GithubApi.EntityImplementations
 {
-    class AuthorizationApiImplementation : EntityImplementation, IAuthorizationAPI
+    internal class AuthorizationApiImplementation : EntityImplementation, IAuthorizationAPI
     {
         public AuthorizationApiImplementation(HttpClient client, string rootUri)
             : base(client, rootUri)
         {
         }
 
+        #region IAuthorizationAPI Members
+
         public Authorization CreateAuthorization(string note, string noteUri, IEnumerable<string> scopes)
         {
-            var request = new CreateAuthorizationRequestBody { Note = note, NoteUrl = noteUri };
+            var request = new CreateAuthorizationRequestBody {Note = note, NoteUrl = noteUri};
             if (scopes != null)
             {
                 request.Scopes = new List<string>(scopes);
             }
 
             HttpResponseMessage response = GetResponse("/authorizations", HttpMethod.Post, request);
-            var authData = response.Content.ReadAsAsync<AuthorizationData>().Result;
+            AuthorizationData authData = response.Content.ReadAsAsync<AuthorizationData>().Result;
             return new Authorization(authData);
         }
 
@@ -48,5 +50,7 @@ namespace GHSprintTrax.GithubApi.EntityImplementations
         {
             DeleteAuthorization(authorization.Id);
         }
+
+        #endregion
     }
 }

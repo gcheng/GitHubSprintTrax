@@ -8,6 +8,19 @@ namespace GHSprintTrax.Tests.TestSupport
         private AuthorizationService authService;
         private Authorization authorization;
 
+        #region IDisposable Members
+
+        public void Dispose()
+        {
+            if (authorization != null)
+            {
+                authService.DeleteAuthorization(authorization);
+                authorization = null;
+            }
+        }
+
+        #endregion
+
         public Authorization GetAuthorization(string username, string password)
         {
             if (authorization == null)
@@ -17,15 +30,6 @@ namespace GHSprintTrax.Tests.TestSupport
                     scopes: new[] {"user", "repo"});
             }
             return authorization;
-        }
-
-        public void Dispose()
-        {
-            if (authorization != null)
-            {
-                authService.DeleteAuthorization(authorization);
-                authorization = null;
-            }
         }
     }
 }

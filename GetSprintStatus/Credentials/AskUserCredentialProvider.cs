@@ -1,14 +1,15 @@
-﻿using System;
-using GetSprintStatus.CommandLine;
+﻿using GetSprintStatus.CommandLine;
 
 namespace GetSprintStatus.Credentials
 {
     /// <summary>
     /// Credential provider that asks the user for username and password
     /// </summary>
-    class AskUserCredentialProvider : ICredentialProvider
+    internal class AskUserCredentialProvider : ICredentialProvider
     {
         private Credentials credentials;
+
+        #region ICredentialProvider Members
 
         public Credentials GetCredentials()
         {
@@ -20,5 +21,7 @@ namespace GetSprintStatus.Credentials
             }
             return credentials;
         }
+
+        #endregion
     }
 }

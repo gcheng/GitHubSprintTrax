@@ -2,7 +2,7 @@
 
 namespace GHSprintTrax.GithubApi.SerializationTypes
 {
-    class RepositoryData
+    internal class RepositoryData
     {
         public string Url { get; set; }
 
@@ -26,6 +26,23 @@ namespace GHSprintTrax.GithubApi.SerializationTypes
 
         public int Id { get; set; }
 
+        public RepositoryOwnerData Owner { get; set; }
+
+        public string Name { get; set; }
+
+        [JsonProperty("full_name")]
+        public string FullName { get; set; }
+
+        public string Description { get; set; }
+
+        // There's a ton of other properties here, but since Issues is what I'm really after,
+        // that's what I'm going to jump to.
+
+        [JsonProperty("has_issues")]
+        public bool HasIssues { get; set; }
+
+        #region Nested type: RepositoryOwnerData
+
         public class RepositoryOwnerData
         {
             public string Login { get; set; }
@@ -41,19 +58,6 @@ namespace GHSprintTrax.GithubApi.SerializationTypes
             public string Url { get; set; }
         }
 
-        public RepositoryOwnerData Owner { get; set; }
-
-        public string Name { get; set; }
-
-        [JsonProperty("full_name")]
-        public string FullName { get; set; }
-
-        public string Description { get; set; }
-
-        // There's a ton of other properties here, but since Issues is what I'm really after,
-        // that's what I'm going to jump to.
-
-        [JsonProperty("has_issues")]
-        public bool HasIssues { get; set; }
+        #endregion
     }
 }

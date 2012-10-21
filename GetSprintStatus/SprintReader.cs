@@ -1,32 +1,33 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using GHSprintTrax.GithubApi;
 
 namespace GetSprintStatus
 {
-    class SprintReader
+    internal class SprintReader
     {
-        private GithubService github;
-        private string ownerLogin;
-        private string repositoryName;
-        private Repository repository;
-        private Milestone currentMilestone;
-        private List<Issue> issues;
-
-        private Regex devEstimateRegex = new Regex(@"^Dev Estimate:\s*(?<estimate>\d+(\.\d+)?)\s*$", 
-            RegexOptions.Multiline | RegexOptions.IgnoreCase);
-        private Regex testEstimateRegex = new Regex(@"^Test Estimate:\s*(?<estimate>\d+(\.\d+)?)\s*$",
-            RegexOptions.Multiline | RegexOptions.IgnoreCase);
-
         private const string Pending = "pending";
         private const string InProgress = "in progress";
         private const string ReadyForTest = "ready for test";
         private const string InTest = "in test";
+
+        private readonly Regex devEstimateRegex = new Regex(@"^Dev Estimate:\s*(?<estimate>\d+(\.\d+)?)\s*$",
+            RegexOptions.Multiline | RegexOptions.IgnoreCase);
+
+        private readonly GithubService github;
+        private readonly string ownerLogin;
+        private readonly string repositoryName;
+
         private readonly List<string> stateLabels = new List<string>
-        { Pending, InProgress, ReadyForTest, InTest };
+        {Pending, InProgress, ReadyForTest, InTest};
+
+        private readonly Regex testEstimateRegex = new Regex(@"^Test Estimate:\s*(?<estimate>\d+(\.\d+)?)\s*$",
+            RegexOptions.Multiline | RegexOptions.IgnoreCase);
+
+        private Milestone currentMilestone;
+        private List<Issue> issues;
+        private Repository repository;
 
         public SprintReader(GithubService github, string ownerLogin, string repositoryName)
         {
@@ -57,7 +58,7 @@ namespace GetSprintStatus
         private SprintStats CalculateStatistics()
         {
             var stats = new SprintStats(repository);
-            foreach (var issue in issues)
+            foreach (Issue issue in issues)
             {
                 CalculateStatistics(issue, stats);
             }
@@ -107,7 +108,7 @@ namespace GetSprintStatus
 
         private void ParseState(Issue issue, SprintStats stats, float devEstimate, float testEstimate)
         {
-            var statesInIssue = new Dictionary<string, int>()
+            var statesInIssue = new Dictionary<string, int>
             {
                 {Pending, 0},
                 {InProgress, 0},
@@ -115,7 +116,7 @@ namespace GetSprintStatus
                 {InTest, 0}
             };
 
-            foreach (var label in issue.LabelNames.Select(l => l.ToLowerInvariant()))
+            foreach (string label in issue.LabelNames.Select(l => l.ToLowerInvariant()))
             {
                 if (stateLabels.Contains(label))
                 {
@@ -136,9 +137,9 @@ namespace GetSprintStatus
             }
 
             stats.AddTest(testEstimate);
-            stats.AddPending(devEstimate * statesInIssue[Pending]);
-            stats.AddInProgress(devEstimate * statesInIssue[InProgress]);
-            stats.AddReadyForTest(testEstimate * statesInIssue[ReadyForTest]);
+            stats.AddPending(devEstimate*statesInIssue[Pending]);
+            stats.AddInProgress(devEstimate*statesInIssue[InProgress]);
+            stats.AddReadyForTest(testEstimate*statesInIssue[ReadyForTest]);
             stats.AddInTest(testEstimate*statesInIssue[InTest]);
         }
     }

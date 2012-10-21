@@ -10,8 +10,8 @@ namespace GHSprintTrax.GithubApi.EntityImplementations
 {
     public abstract class EntityImplementation
     {
-        private readonly string rootUri;
         private readonly HttpClient client;
+        private readonly string rootUri;
 
         protected EntityImplementation(HttpClient client, string rootUri)
         {
@@ -19,11 +19,18 @@ namespace GHSprintTrax.GithubApi.EntityImplementations
             this.rootUri = rootUri;
         }
 
-        protected HttpClient Client { get { return client; } }
+        protected HttpClient Client
+        {
+            get { return client; }
+        }
 
-        protected string RootUri { get { return rootUri; } }
+        protected string RootUri
+        {
+            get { return rootUri; }
+        }
 
-        private HttpRequestMessage CreateMessage(string uri, HttpMethod method, NameValueCollection queryParameters = null)
+        private HttpRequestMessage CreateMessage(string uri, HttpMethod method,
+            NameValueCollection queryParameters = null)
         {
             var requestUri = new UriBuilder(rootUri + uri);
             if (queryParameters != null)
@@ -32,12 +39,13 @@ namespace GHSprintTrax.GithubApi.EntityImplementations
                     .SelectMany(key => queryParameters.GetValues(key)
                         .Select(
                             value =>
-                                String.Format("{0}={1}", HttpUtility.UrlEncode(key), HttpUtility.UrlEncode(value)))).ToArray());
+                                String.Format("{0}={1}", HttpUtility.UrlEncode(key), HttpUtility.UrlEncode(value)))).
+                    ToArray());
             }
 
             var message = new HttpRequestMessage
             {
-                Method = method, 
+                Method = method,
                 RequestUri = requestUri.Uri
             };
 

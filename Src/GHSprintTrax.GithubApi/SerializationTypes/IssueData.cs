@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace GHSprintTrax.GithubApi.SerializationTypes
 {
-    class IssueData
+    internal class IssueData
     {
         public string Url { get; set; }
 
@@ -15,13 +15,6 @@ namespace GHSprintTrax.GithubApi.SerializationTypes
         public string Body { get; set; }
         public RelatedUserData User { get; set; }
 
-        public class LabelData
-        {
-            public string Url { get; set; }
-            public string Name { get; set; }
-            public string Color { get; set; }
-        }
-
         public List<LabelData> Labels { get; set; }
 
         public RelatedUserData Assignee { get; set; }
@@ -30,6 +23,23 @@ namespace GHSprintTrax.GithubApi.SerializationTypes
 
         public int Comments { get; set; }
 
+        public DateTimeOffset? closed_at { get; set; }
+        public DateTimeOffset created_at { get; set; }
+        public DateTimeOffset updated_at { get; set; }
+
+        #region Nested type: LabelData
+
+        public class LabelData
+        {
+            public string Url { get; set; }
+            public string Name { get; set; }
+            public string Color { get; set; }
+        }
+
+        #endregion
+
+        #region Nested type: PullRequestData
+
         public class PullRequestData
         {
             public string html_url { get; set; }
@@ -37,8 +47,6 @@ namespace GHSprintTrax.GithubApi.SerializationTypes
             public string patch_url { get; set; }
         }
 
-        public DateTimeOffset? closed_at { get; set; }
-        public DateTimeOffset created_at { get; set; }
-        public DateTimeOffset updated_at { get; set; }
+        #endregion
     }
 }
