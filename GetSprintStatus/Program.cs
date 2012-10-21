@@ -8,6 +8,7 @@ namespace GetSprintStatus
 {
     internal class Program
     {
+        [STAThread]
         private static void Main(string[] args)
         {
             CompositeCredentialProvider credentialProvider = new CompositeCredentialProvider()
@@ -25,6 +26,7 @@ namespace GetSprintStatus
 
             var formatters = new List<IFormatter>
             {
+                new ClipboardFormatter(),
                 new ConsoleFormatter(Console.Out),
                 new ErrorFormatter(Console.Error)
             };

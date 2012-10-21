@@ -35,6 +35,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -51,6 +52,7 @@
     <Compile Include="Credentials\Credentials.cs" />
     <Compile Include="Credentials\GitCredentialProvider.cs" />
     <Compile Include="Credentials\ICredentialProvider.cs" />
+    <Compile Include="Formatting\ClipboardFormatter.cs" />
     <Compile Include="Formatting\ConsoleFormatter.cs" />
     <Compile Include="Formatting\ErrorFormatter.cs" />
     <Compile Include="Formatting\IFormatter.cs" />
