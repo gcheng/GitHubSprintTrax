@@ -11,6 +11,8 @@ namespace GetSprintStatus
         private const string InProgress = "in progress";
         private const string ReadyForTest = "ready for test";
         private const string InTest = "in test";
+        private const string Blocked = "blocked";
+        private const string Hold = "hold";
 
         private readonly Regex devEstimateRegex = new Regex(@"^Dev Estimate:\s*(?<estimate>\d+(\.\d+)?)\s*$",
             RegexOptions.Multiline | RegexOptions.IgnoreCase);
@@ -21,6 +23,8 @@ namespace GetSprintStatus
 
         private readonly List<string> stateLabels = new List<string>
         {Pending, InProgress, ReadyForTest, InTest};
+
+        private readonly List<string> blockedLabels = new List<string> { Blocked, Hold };
 
         private readonly Regex testEstimateRegex = new Regex(@"^Test Estimate:\s*(?<estimate>\d+(\.\d+)?)\s*$",
             RegexOptions.Multiline | RegexOptions.IgnoreCase);
@@ -101,7 +105,7 @@ namespace GetSprintStatus
                 {Pending, 0},
                 {InProgress, 0},
                 {ReadyForTest, 0},
-                {InTest, 0}
+                {InTest, 0},
             };
 
             foreach (string label in issue.LabelNames.Select(l => l.ToLowerInvariant()))
@@ -109,6 +113,11 @@ namespace GetSprintStatus
                 if (stateLabels.Contains(label))
                 {
                     statesInIssue[label]++;
+                }
+
+                if(blockedLabels.Contains(label))
+                {
+                    stats.AddError(issue, "Blocked");
                 }
             }
 

@@ -34,23 +34,35 @@ namespace GetSprintStatus.Formatting
 
         private void WriteErrorHeader()
         {
-            output.WriteLine("The following issues have issues:");
-            output.WriteLine("=================================");
+            output.WriteLine("The following work items have issues:");
+            output.WriteLine("=====================================");
             output.WriteLine();
         }
 
         private void WriteErrors(IEnumerable<ParseError> group)
         {
             Issue firstIssue = group.First().Issue;
-            int titleLength = firstIssue.Title.Length;
-            titleLength = titleLength > 65 ? 65 : titleLength;
 
-            output.WriteLine("{0}: {1}", firstIssue.Number, firstIssue.Title.Substring(0, titleLength));
+            output.WriteLine("{0}: {1}", firstIssue.Number, firstIssue.Title.Clip(65));
+            output.WriteLine(firstIssue.HtmlUrl);
             foreach (ParseError error in group)
             {
                 output.WriteLine("    {0}", error.Reason);
             }
             output.WriteLine();
+        }
+    }
+
+    static class StringExtensions
+    {
+        public static string Clip(this string s, int length, string ellipsis = "...")
+        {
+            if (s.Length <= length)
+            {
+                return s;
+            }
+
+            return s.Substring(0, length - ellipsis.Length) + ellipsis;
         }
     }
 }
