@@ -51,7 +51,9 @@
     <Compile Include="Credentials\Credentials.cs" />
     <Compile Include="Credentials\GitCredentialProvider.cs" />
     <Compile Include="Credentials\ICredentialProvider.cs" />
-    <Compile Include="Formatter.cs" />
+    <Compile Include="Formatting\ConsoleFormatter.cs" />
+    <Compile Include="Formatting\ErrorFormatter.cs" />
+    <Compile Include="Formatting\IFormatter.cs" />
     <Compile Include="ParseError.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

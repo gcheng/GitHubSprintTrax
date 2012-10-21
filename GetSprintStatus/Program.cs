@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using GetSprintStatus.Credentials;
+using GetSprintStatus.Formatting;
 using GHSprintTrax.GithubApi;
 
 namespace GetSprintStatus
@@ -21,8 +23,13 @@ namespace GetSprintStatus
             var reader = new SprintReader(github, ownerLogin, repositoryName);
             SprintStats stats = reader.GetSprintStatistics();
 
-            var formatter = new Formatter(Console.Out);
-            formatter.WriteStatistics(stats);
+            var formatters = new List<IFormatter>
+            {
+                new ConsoleFormatter(Console.Out),
+                new ErrorFormatter(Console.Error)
+            };
+
+            formatters.ForEach(f => f.WriteStatistics(stats));
         }
     }
 }

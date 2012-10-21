@@ -1,35 +1,17 @@
 ﻿using System.IO;
 
-namespace GetSprintStatus
+namespace GetSprintStatus.Formatting
 {
-    internal class Formatter
+    class ErrorFormatter : IFormatter
     {
-        private readonly TextWriter output;
+        private TextWriter output;
 
-        public Formatter(TextWriter output)
+        public ErrorFormatter(TextWriter output)
         {
             this.output = output;
         }
 
         public void WriteStatistics(SprintStats stats)
-        {
-            output.WriteLine("Repository {0}", stats.RepoName);
-            WriteStats(stats);
-            WriteErrors(stats);
-        }
-
-        private void WriteStats(SprintStats stats)
-        {
-            output.WriteLine("Dev Remaining: {0}", stats.DevRemaining);
-            output.WriteLine("Test Remaining: {0}", stats.TestRemaining);
-            output.WriteLine("Pending: {0}", stats.Pending);
-            output.WriteLine("In Progress: {0}", stats.InProgress);
-            output.WriteLine("Ready For Test: {0}", stats.ReadyForTest);
-            output.WriteLine("In Test: {0}", stats.InTest);
-            output.WriteLine();
-        }
-
-        private void WriteErrors(SprintStats stats)
         {
             bool errorHeaderWritten = false;
 
