@@ -67,43 +67,31 @@ namespace GetSprintStatus
 
         private void CalculateStatistics(Issue issue, SprintStats stats)
         {
-            float devEstimate = 0;
-            float testEstimate = 0;
-            ParseError err = null;
+            float devEstimate;
+            float testEstimate;
 
-            err = ParseEstimates(issue, out devEstimate, out testEstimate);
-
-            if (err != null)
-            {
-                stats.AddError(err);
-                return;
-            }
-
+            stats.AddIssue();
+            ParseEstimates(issue, stats, out devEstimate, out testEstimate);
             ParseState(issue, stats, devEstimate, testEstimate);
         }
 
-        private ParseError ParseEstimates(Issue issue, out float devEstimate, out float testEstimate)
+        private void ParseEstimates(Issue issue, SprintStats stats, out float devEstimate, out float testEstimate)
         {
-            devEstimate = 0;
-            testEstimate = 0;
-
             Match devMatches = devEstimateRegex.Match(issue.Body);
             Match testMatches = testEstimateRegex.Match(issue.Body);
 
             if (!devMatches.Success)
             {
-                return new ParseError(issue, "Dev Estimate not found in issue");
+                stats.AddError(issue, "Dev estimate not found in issue");
             }
 
             if (!testMatches.Success)
             {
-                return new ParseError(issue, "Test Estimate not found in issue");
+                stats.AddError(issue, "Test estimate not found in issue");
             }
 
-            devEstimate = float.Parse(devMatches.Groups["estimate"].Value);
-            testEstimate = float.Parse(testMatches.Groups["estimate"].Value);
-
-            return null;
+            float.TryParse(devMatches.Groups["estimate"].Value, out devEstimate);
+            float.TryParse(testMatches.Groups["estimate"].Value, out testEstimate);
         }
 
         private void ParseState(Issue issue, SprintStats stats, float devEstimate, float testEstimate)
@@ -126,13 +114,13 @@ namespace GetSprintStatus
 
             if (statesInIssue.Values.Sum() == 0)
             {
-                stats.AddError(new ParseError(issue, "Issue doesn't have a state"));
+                stats.AddError(issue, "Issue doesn't have a state");
                 return;
             }
 
             if (statesInIssue.Values.Sum() > 1)
             {
-                stats.AddError(new ParseError(issue, "Issue has multiple state labels"));
+                stats.AddError(issue, "Issue has multiple state labels");
                 return;
             }
 

@@ -26,6 +26,8 @@ namespace GetSprintStatus.Formatting
             output.WriteLine("Ready For Test: {0}", stats.ReadyForTest);
             output.WriteLine("In Test: {0}", stats.InTest);
             output.WriteLine();
+            output.WriteLine("Total open work items: {0}", stats.TotalIssues);
+            output.WriteLine();
         }
     }
 }

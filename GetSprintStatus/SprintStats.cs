@@ -6,12 +6,6 @@ namespace GetSprintStatus
     internal class SprintStats
     {
         private readonly List<ParseError> errors = new List<ParseError>();
-        private float inProgress;
-        private float inTest;
-        private float pending;
-        private float readyForTest;
-        private float test;
-        private int totalIssues;
 
         public SprintStats(Repository repo)
         {
@@ -25,74 +19,56 @@ namespace GetSprintStatus
             get { return errors; }
         }
 
-        public int TotalIssues
-        {
-            get { return totalIssues; }
-        }
+        public int TotalIssues { get; private set; }
 
         public float DevRemaining
         {
-            get { return pending + inProgress; }
+            get { return Pending + InProgress; }
         }
 
-        public float TestRemaining
-        {
-            get { return test; }
-        }
+        public float TestRemaining { get; private set; }
 
-        public float Pending
-        {
-            get { return pending; }
-        }
+        public float Pending { get; private set; }
 
-        public float InProgress
-        {
-            get { return inProgress; }
-        }
+        public float InProgress { get; private set; }
 
-        public float ReadyForTest
-        {
-            get { return readyForTest; }
-        }
+        public float ReadyForTest { get; private set; }
 
-        public float InTest
-        {
-            get { return inTest; }
-        }
+        public float InTest { get; private set; }
 
-        public void AddError(ParseError error)
+        public void AddError(Issue issue, string reason)
         {
-            errors.Add(error);
+            errors.Add(new ParseError(issue, reason));
         }
 
         public void AddIssue()
         {
-            ++totalIssues;
+            ++TotalIssues;
         }
 
         public void AddTest(float points)
         {
-            test += points;
+            TestRemaining += points;
         }
 
         public void AddPending(float points)
         {
-            pending += points;
+            Pending += points;
         }
 
         public void AddInProgress(float points)
         {
-            inProgress += points;
+            InProgress += points;
         }
 
         public void AddReadyForTest(float points)
         {
-            readyForTest += points;
+            ReadyForTest += points;
         }
 
         public void AddInTest(float points)
         {
-            inTest += points;
+            InTest += points;
         }
     }
 }
