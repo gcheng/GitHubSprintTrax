@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
+using GetSprintStatus.Credentials;
 using GHSprintTrax.GithubApi;
 
 namespace GetSprintStatus
@@ -11,7 +8,11 @@ namespace GetSprintStatus
     {
         static void Main(string[] args)
         {
-            var auth = AuthManager.GetAuthorization();
+            var credentialProvider = new CompositeCredentialProvider()
+                .Add(new GitCredentialProvider("github.com"))
+                .Add(new AskUserCredentialProvider());
+
+            var auth = AuthManager.GetAuthorization(credentialProvider);
             var github = new GithubService(auth);
             
             string ownerLogin = args[0];
