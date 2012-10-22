@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace GetSprintStatus.Credentials
@@ -22,9 +23,17 @@ namespace GetSprintStatus.Credentials
 
         public Credentials GetCredentials()
         {
-            if (credentials == null)
+            try
             {
-                ReadCredentialsFromGit();
+
+                if (credentials == null)
+                {
+                    ReadCredentialsFromGit();
+                }
+            }
+            catch (Exception ex)
+            {
+                // Something failed, let other handlers handle it
             }
             return credentials;
         }
