@@ -13,6 +13,9 @@ namespace GHSprintTrax.Tests.IntegrationTests
         private const string repoName = "GHSprintTrax";
         private const string ownerName = "christav";
 
+        private const string bigRepoName = "azure-sdk-tools";
+        private const string bigRepoOwner = "WindowsAzure";
+
         private Authorization authorization;
         private GithubService github;
         private Repository repo;
@@ -59,6 +62,16 @@ namespace GHSprintTrax.Tests.IntegrationTests
 
             Assert.Equal(ownerName, expectedIssue.UserLogin);
             Assert.True(expectedIssue.LabelNames.Contains("enhancement"));
+        }
+
+        [Fact]
+        public void CanGetIssuesWithoutMilestone()
+        {
+            Repository bigRepo = github.GetRepository(bigRepoOwner, bigRepoName);
+
+            IEnumerable<Issue> issues = bigRepo.GetIssues();
+
+            Assert.True(issues.Count() > 30);
         }
     }
 }

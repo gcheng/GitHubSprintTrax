@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
+using System.Text.RegularExpressions;
 using System.Web;
 
 namespace GHSprintTrax.GithubApi.EntityImplementations
@@ -77,6 +80,59 @@ namespace GHSprintTrax.GithubApi.EntityImplementations
             HttpResponseMessage response = client.SendAsync(message).Result;
             response.EnsureSuccessStatusCode();
             return response;
+        }
+
+        protected IEnumerable<TPublic> GetPagedList<TPublic, TSerialization>(string initialUri,
+            Func<TSerialization, TPublic> selector)
+        {
+            HttpResponseMessage response = GetResponse(initialUri, HttpMethod.Get);
+
+            while (response != null)
+            {
+                IEnumerable<TPublic> results = 
+                    response.Content.ReadAsAsync<List<TSerialization>>().Result
+                    .Select(selector);
+
+                foreach (var result in results)
+                {
+                    yield return result;
+                }
+
+                if (response.Headers.Contains("Link"))
+                {
+                    string requestUrl = ParseLinkHeader(response.Headers.GetValues("Link"));
+                    if (requestUrl == null)
+                    {
+                        yield break;
+                    }
+
+                    var message = new HttpRequestMessage(HttpMethod.Get, requestUrl);
+                    message.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse(Constants.apiMimeType));
+
+                    response = Client.SendAsync(message).Result;
+                    response.EnsureSuccessStatusCode();
+                }
+                else
+                {
+                    response = null;
+                }
+            }
+        }
+
+        private static readonly Regex relNextRegex = new Regex(@"\<(?<link>.*)\>; rel=""next""", RegexOptions.Compiled);
+
+        private static string ParseLinkHeader(IEnumerable<string> headers)
+        {
+            // Find first one that contains rel="next", that's the one we care about
+            foreach (string header in headers)
+            {
+                Match match = relNextRegex.Match(header);
+                if (match.Success)
+                {
+                    return match.Groups["link"].Value;
+                }
+            }
+            return null;
         }
     }
 }
