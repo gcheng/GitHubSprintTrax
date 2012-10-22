@@ -117,7 +117,7 @@ namespace GHSprintTrax.GithubApi
 
         public IEnumerable<Issue> GetIssues()
         {
-            return GetPagedList<Issue, IssueData>("/issues", id => new Issue(id, this));
+            return GetPagedList<Issue, IssueData>("/issues", null, id => new Issue(id, this));
         }
 
         public IEnumerable<Issue> GetIssues(Milestone milestone)
@@ -125,9 +125,7 @@ namespace GHSprintTrax.GithubApi
             var queryParameters = new NameValueCollection();
             queryParameters["milestone"] = milestone.Number.ToString();
 
-            HttpResponseMessage response = GetResponse("/issues", queryParameters);
-            return response.Content.ReadAsAsync<List<IssueData>>().Result
-                .Select(id => new Issue(id, this)).ToList();
+            return GetPagedList<Issue, IssueData>("/issues", queryParameters, id => new Issue(id, this));
         }
     }
 }

@@ -83,9 +83,9 @@ namespace GHSprintTrax.GithubApi.EntityImplementations
         }
 
         protected IEnumerable<TPublic> GetPagedList<TPublic, TSerialization>(string initialUri,
-            Func<TSerialization, TPublic> selector)
+            NameValueCollection queryParameters, Func<TSerialization, TPublic> selector)
         {
-            HttpResponseMessage response = GetResponse(initialUri, HttpMethod.Get);
+            HttpResponseMessage response = GetResponse(initialUri, queryParameters);
 
             while (response != null)
             {
