@@ -35,10 +35,8 @@ namespace GHSprintTrax.GithubApi.EntityImplementations
 
         public IEnumerable<Authorization> ListAuthorizations()
         {
-            HttpResponseMessage response = GetResponse("/authorizations", HttpMethod.Get);
-            return response.Content.ReadAsAsync<List<AuthorizationData>>().Result
-                .Select(ad => new Authorization(ad))
-                .ToList();
+            return GetPagedList<Authorization, AuthorizationData, GetListOptions>(
+                "/authorizations", null, ad => new Authorization(ad));
         }
 
         public void DeleteAuthorization(int id)

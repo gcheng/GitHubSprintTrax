@@ -56,7 +56,7 @@ namespace GetSprintStatus
 
         private void FindIssues()
         {
-            issues = repository.GetIssues(currentMilestone).ToList();
+            issues = repository.GetIssues(o => { o.Milestone = currentMilestone; }).ToList();
         }
 
         private SprintStats CalculateStatistics()

@@ -82,10 +82,17 @@ namespace GHSprintTrax.GithubApi.EntityImplementations
             return response;
         }
 
-        protected IEnumerable<TPublic> GetPagedList<TPublic, TSerialization>(string initialUri,
-            NameValueCollection queryParameters, Func<TSerialization, TPublic> selector)
+        protected IEnumerable<TPublic> GetPagedList<TPublic, TSerialization, TOptions>(string initialUri,
+            Action<TOptions> optionSetter, Func<TSerialization, TPublic> selector)
+            where TOptions : GetListOptions, new()
         {
-            HttpResponseMessage response = GetResponse(initialUri, queryParameters);
+            var options = new TOptions();
+            if (optionSetter != null)
+            {
+                optionSetter(options);
+            }
+
+            HttpResponseMessage response = GetResponse(initialUri, options.GetParameters());
 
             while (response != null)
             {

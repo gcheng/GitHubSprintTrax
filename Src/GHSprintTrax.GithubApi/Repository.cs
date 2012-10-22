@@ -1,6 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Linq;
+﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using GHSprintTrax.GithubApi.EntityImplementations;
 using GHSprintTrax.GithubApi.SerializationTypes;
@@ -110,22 +109,19 @@ namespace GHSprintTrax.GithubApi
 
         public IEnumerable<Milestone> GetMilestones()
         {
-            HttpResponseMessage response = GetResponse("/milestones", HttpMethod.Get);
-            return response.Content.ReadAsAsync<List<MilestoneData>>().Result
-                .Select(md => new Milestone(md, this)).ToList();
+            return GetPagedList<Milestone, MilestoneData, GetListOptions>(
+                "/milestones", null, md => new Milestone(md, this));
         }
 
         public IEnumerable<Issue> GetIssues()
         {
-            return GetPagedList<Issue, IssueData>("/issues", null, id => new Issue(id, this));
+            return GetIssues(null);
         }
 
-        public IEnumerable<Issue> GetIssues(Milestone milestone)
+        public IEnumerable<Issue> GetIssues(Action<GetIssuesOptions> optionSetter)
         {
-            var queryParameters = new NameValueCollection();
-            queryParameters["milestone"] = milestone.Number.ToString();
 
-            return GetPagedList<Issue, IssueData>("/issues", queryParameters, id => new Issue(id, this));
+            return GetPagedList<Issue, IssueData, GetIssuesOptions>("/issues", optionSetter, id => new Issue(id, this));
         }
     }
 }

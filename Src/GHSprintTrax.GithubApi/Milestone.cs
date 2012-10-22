@@ -81,7 +81,7 @@ namespace GHSprintTrax.GithubApi
 
         public IEnumerable<Issue> GetIssues()
         {
-            return repo.GetIssues(this);
+            return repo.GetIssues(o => { o.Milestone = this; });
         }
     }
 }

@@ -73,5 +73,18 @@ namespace GHSprintTrax.Tests.IntegrationTests
 
             Assert.True(issues.Count() > 30);
         }
+
+        [Fact]
+        public void CanGetClosedIssues()
+        {
+            Repository bigRepo = github.GetRepository(bigRepoOwner, bigRepoName);
+            IEnumerable<Issue> issues = bigRepo.GetIssues(o =>
+            {
+                o.State = IssueState.Closed;
+            }).ToList();
+
+            Assert.True(issues.Count() > 0);
+            Assert.True(issues.All(i => i.State == "closed"));
+        }
     }
 }

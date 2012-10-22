@@ -166,10 +166,8 @@ namespace GHSprintTrax.GithubApi
 
         public IEnumerable<UserOrganization> GetOrgs()
         {
-            HttpResponseMessage response = GetResponse("/orgs", HttpMethod.Get);
-            return response.Content.ReadAsAsync<List<UserOrgData>>().Result
-                .Select(od => new UserOrganization(od, Client))
-                .ToList();
+            return GetPagedList<UserOrganization, UserOrgData, GetListOptions>(
+                "/orgs", null, od => new UserOrganization(od, Client));
         }
     }
 }
