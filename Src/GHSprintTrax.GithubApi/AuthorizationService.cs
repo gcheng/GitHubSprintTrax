@@ -28,9 +28,9 @@ namespace GHSprintTrax.GithubApi
             return impl.GetAuthorization(authId);
         }
 
-        public IEnumerable<Authorization> ListAuthorizations()
+        public IEnumerable<Authorization> GetAuthorizations()
         {
-            return impl.ListAuthorizations();
+            return impl.GetAuthorizations();
         }
 
         public void DeleteAuthorization(int id)

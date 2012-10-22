@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using GHSprintTrax.GithubApi.SerializationTypes;
 
@@ -33,7 +32,7 @@ namespace GHSprintTrax.GithubApi.EntityImplementations
             return new Authorization(response.Content.ReadAsAsync<AuthorizationData>().Result);
         }
 
-        public IEnumerable<Authorization> ListAuthorizations()
+        public IEnumerable<Authorization> GetAuthorizations()
         {
             return GetPagedList<Authorization, AuthorizationData, GetListOptions>(
                 "/authorizations", null, ad => new Authorization(ad));

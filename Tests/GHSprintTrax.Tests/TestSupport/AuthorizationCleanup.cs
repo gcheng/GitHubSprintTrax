@@ -37,7 +37,7 @@ namespace GHSprintTrax.Tests.TestSupport
 
         private void DeletePrefixedAuthorizations()
         {
-            foreach (Authorization authorization in authClient.ListAuthorizations())
+            foreach (Authorization authorization in authClient.GetAuthorizations())
             {
                 if (authorization.Note != null && authorization.Note.StartsWith(prefix))
                 {

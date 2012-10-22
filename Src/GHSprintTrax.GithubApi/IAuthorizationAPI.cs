@@ -6,7 +6,7 @@ namespace GHSprintTrax.GithubApi
     {
         Authorization CreateAuthorization(string note = null, string noteUri = null, IEnumerable<string> scopes = null);
         Authorization GetAuthorization(int authId);
-        IEnumerable<Authorization> ListAuthorizations();
+        IEnumerable<Authorization> GetAuthorizations();
         void DeleteAuthorization(int id);
         void DeleteAuthorization(Authorization authorization);
     }

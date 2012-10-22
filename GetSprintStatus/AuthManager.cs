@@ -19,7 +19,7 @@ namespace GetSprintStatus
 
         private static Authorization GetAuthorization(AuthorizationService authService)
         {
-            Authorization auth = authService.ListAuthorizations().FirstOrDefault(a => a.Note == GithubAuthNote);
+            Authorization auth = authService.GetAuthorizations().FirstOrDefault(a => a.Note == GithubAuthNote);
 
             if (auth == null)
             {

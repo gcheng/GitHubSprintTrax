@@ -65,7 +65,7 @@ namespace GHSprintTrax.Tests.IntegrationTests.Authorizations
                 authService.CreateAuthorization(note);
             }
 
-            List<Authorization> authorizations = authService.ListAuthorizations().ToList();
+            List<Authorization> authorizations = authService.GetAuthorizations().ToList();
 
             Assert.True(authorizations.Count >= 2);
 
