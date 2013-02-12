@@ -64,9 +64,12 @@ namespace GetSprintStatus
             issues = repository.GetIssues(o => { o.Milestone = currentMilestone; }).ToList();
         }
 
-        private SprintStats CalculateStatistics()
+        private SprintStats CalculateStatistics(SprintStats stats = null)
         {
-            var stats = new SprintStats(repository, currentMilestone);
+            if (stats == null)
+            {
+                stats = new SprintStats(repository.Name, currentMilestone.Title);
+            }
             foreach (Issue issue in issues)
             {
                 CalculateStatistics(issue, stats);

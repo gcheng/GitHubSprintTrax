@@ -7,10 +7,10 @@ namespace GetSprintStatus
     {
         private readonly List<ParseError> errors = new List<ParseError>();
 
-        public SprintStats(Repository repo, Milestone milestone)
+        public SprintStats(string repo, string milestone)
         {
-            RepoName = repo.FullName;
-            MilestoneName = milestone.Title;
+            RepoName = repo;
+            MilestoneName = milestone;
         }
 
         public string RepoName { get; private set; }
