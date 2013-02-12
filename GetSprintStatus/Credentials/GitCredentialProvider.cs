@@ -31,7 +31,9 @@ namespace GetSprintStatus.Credentials
                     ReadCredentialsFromGit();
                 }
             }
-            catch (Exception ex)
+// ReSharper disable EmptyGeneralCatchClause
+            catch (Exception )
+// ReSharper restore EmptyGeneralCatchClause
             {
                 // Something failed, let other handlers handle it
             }
@@ -125,4 +127,4 @@ namespace GetSprintStatus.Credentials
             return results;
         }
     }
-}
+}                                                                               
