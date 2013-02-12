@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using GHSprintTrax.GithubApi;
@@ -51,7 +52,11 @@ namespace GetSprintStatus
 
         private void FindCurrentMilestone()
         {
-            currentMilestone = repository.GetMilestones().First(m => m.Title == "Current Sprint");
+            var today = DateTimeOffset.Now;
+            var milestones = repository.GetMilestones();
+
+            currentMilestone = milestones.FirstOrDefault(m => m.DueOn != null && m.DueOn.Value >= today) ??
+                milestones.First(m => m.Title == "Current Sprint");
         }
 
         private void FindIssues()
@@ -61,7 +66,7 @@ namespace GetSprintStatus
 
         private SprintStats CalculateStatistics()
         {
-            var stats = new SprintStats(repository);
+            var stats = new SprintStats(repository, currentMilestone);
             foreach (Issue issue in issues)
             {
                 CalculateStatistics(issue, stats);

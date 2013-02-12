@@ -14,6 +14,7 @@ namespace GetSprintStatus.Formatting
         public void WriteStatistics(SprintStats stats)
         {
             output.WriteLine("Repository {0}", stats.RepoName);
+            output.WriteLine("For milestone {0}", stats.MilestoneName);
             WriteStats(stats);
         }
 

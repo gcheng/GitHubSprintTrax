@@ -29,8 +29,9 @@ namespace GHSprintTrax.Tests.IntegrationTests
         {
             var orgs = new List<UserOrganization>(service.CurrentUser.GetInfo().GetOrgs());
 
-            Assert.Equal(1, orgs.Count);
+            Assert.Equal(2, orgs.Count);
             Assert.Equal("WindowsAzure", orgs[0].Login);
+            Assert.Equal("appfog", orgs[1].Login);
         }
     }
 }
