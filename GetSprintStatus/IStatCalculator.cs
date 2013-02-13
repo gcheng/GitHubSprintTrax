@@ -16,5 +16,7 @@ namespace GetSprintStatus
         void AddError(Issue issue, string reason);
 
         void Accept(IFormatter formatter);
+
+        IEnumerable<ParseError> Errors { get; }
     }
 }

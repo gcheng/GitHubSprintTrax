@@ -56,45 +56,34 @@ namespace GetSprintStatus
             {
                 return; // don't care about closed issues
             }
+
+            var issueStates = GithubConventions.GetIssueStates(issue);
             
-            var statesInIssue = new Dictionary<string, int>
+            if (issueStates[GithubConventions.BlockedLabel] +
+                issueStates[GithubConventions.HoldLabel] > 0)
             {
-                {PendingLabel, 0},
-                {InProgressLabel, 0},
-                {ReadyForTestLabel, 0},
-                {InTestLabel, 0},
-            };
-
-            foreach (string label in issue.LabelNames.Select(l => l.ToLowerInvariant()))
-            {
-                if (stateLabels.Contains(label))
-                {
-                    statesInIssue[label]++;
-                }
-
-                if (blockedLabels.Contains(label))
-                {
-                    AddError(issue, "Blocked");
-                }
+                AddError(issue, "Blocked");
+                issueStates.Remove(GithubConventions.BlockedLabel);
+                issueStates.Remove(GithubConventions.HoldLabel);
             }
 
-            if (statesInIssue.Values.Sum() == 0)
+            if (issueStates.Values.Sum() == 0)
             {
                 AddError(issue, "Issue doesn't have a state");
                 return;
             }
 
-            if (statesInIssue.Values.Sum() > 1)
+            if (issueStates.Values.Sum() > 1)
             {
                 AddError(issue, "Issue has multiple state labels");
                 return;
             }
 
             TestRemaining += testEstimate;
-            Pending += (devEstimate * statesInIssue[PendingLabel]);
-            InProgress += (devEstimate * statesInIssue[InProgressLabel]);
-            ReadyForTest += (testEstimate * statesInIssue[ReadyForTestLabel]);
-            InTest += (testEstimate * statesInIssue[InTestLabel]);
+            Pending += (devEstimate * issueStates[PendingLabel]);
+            InProgress += (devEstimate * issueStates[InProgressLabel]);
+            ReadyForTest += (testEstimate * issueStates[ReadyForTestLabel]);
+            InTest += (testEstimate * issueStates[InTestLabel]);
         }
 
         public void AddError(Issue issue, string reason)

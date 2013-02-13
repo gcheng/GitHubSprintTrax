@@ -42,11 +42,7 @@ namespace GetSprintStatus
 
         private void FindCurrentMilestone()
         {
-            var today = DateTimeOffset.Now;
-            var milestones = repository.GetMilestones().ToList();
-
-            currentMilestone = milestones.FirstOrDefault(m => m.DueOn != null && m.DueOn.Value >= today) ??
-                milestones.First(m => m.Title == "Current Sprint");
+            currentMilestone = GithubConventions.GetCurrentMilestone(repository);
         }
 
         private void FindIssues()
@@ -66,28 +62,9 @@ namespace GetSprintStatus
 
             foreach (Issue issue in openIssues.Concat(closedIssues))
             {
-                ParseEstimates(issue, stats, out devEstimate, out testEstimate);
+                GithubConventions.ParseEstimates(issue, stats, out devEstimate, out testEstimate);
                 stats.AddIssue(issue, devEstimate, testEstimate);
             }
-        }
-
-        private void ParseEstimates(Issue issue, IStatCalculator stats, out float devEstimate, out float testEstimate)
-        {
-            Match devMatches = devEstimateRegex.Match(issue.Body);
-            Match testMatches = testEstimateRegex.Match(issue.Body);
-
-            if (!devMatches.Success)
-            {
-                stats.AddError(issue, "Dev estimate not found in issue");
-            }
-
-            if (!testMatches.Success)
-            {
-                stats.AddError(issue, "Test estimate not found in issue");
-            }
-
-            float.TryParse(devMatches.Groups["estimate"].Value, out devEstimate);
-            float.TryParse(testMatches.Groups["estimate"].Value, out testEstimate);
         }
     }
 }

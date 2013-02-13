@@ -57,6 +57,7 @@
     <Compile Include="Formatting\ConsoleFormatter.cs" />
     <Compile Include="Formatting\ErrorFormatter.cs" />
     <Compile Include="Formatting\IFormatter.cs" />
+    <Compile Include="GithubConventions.cs" />
     <Compile Include="IStatCalculator.cs" />
     <Compile Include="ParseError.cs" />
     <Compile Include="Program.cs" />
