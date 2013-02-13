@@ -14,10 +14,12 @@ namespace GetSprintStatus.Formatting
     {
         public void WriteStatistics(SprintStats stats)
         {
-            string text = string.Format("{0}\t{1}\t{2}\t{3}\t{4}",
+            string text = string.Format("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}",
+                stats.Total,
                 stats.DevRemaining, stats.TestRemaining,
                 stats.InProgress,
-                stats.ReadyForTest, stats.InTest);
+                stats.ReadyForTest, stats.InTest,
+                stats.Done);
 
             Clipboard.SetText(text, TextDataFormat.Text);
         }

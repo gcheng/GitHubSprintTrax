@@ -27,7 +27,10 @@ namespace GetSprintStatus.Formatting
             output.WriteLine("Ready For Test: {0}", stats.ReadyForTest);
             output.WriteLine("In Test: {0}", stats.InTest);
             output.WriteLine();
-            output.WriteLine("Total open work items: {0}", stats.TotalIssues);
+            output.WriteLine("Total open work items: {0}", stats.TotalOpenIssues);
+            output.WriteLine("Total closed work items: {0}", stats.TotalClosedIssues);
+            output.WriteLine("Total work in sprint: {0}", stats.Total);
+            output.WriteLine("Total work done so far: {0}", stats.Done);
             output.WriteLine();
         }
     }

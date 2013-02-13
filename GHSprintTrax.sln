@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{959D3925-AEBB-4133-ADEB-E15515452588}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Src", "Src", "{FE9505DD-4CF5-4FEB-9E0E-04AD22840F60}"
@@ -49,6 +49,7 @@ Global
 		{59AE0925-7E03-4D22-8FA4-7AA550C2AB5A}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{59AE0925-7E03-4D22-8FA4-7AA550C2AB5A}.Release|x86.ActiveCfg = Release|Any CPU
 		{CDC5DBA8-EBA4-49F7-9B5F-7E7C6F6EAB45}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{CDC5DBA8-EBA4-49F7-9B5F-7E7C6F6EAB45}.Debug|Any CPU.Build.0 = Debug|x86
 		{CDC5DBA8-EBA4-49F7-9B5F-7E7C6F6EAB45}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
 		{CDC5DBA8-EBA4-49F7-9B5F-7E7C6F6EAB45}.Debug|Mixed Platforms.Build.0 = Debug|x86
 		{CDC5DBA8-EBA4-49F7-9B5F-7E7C6F6EAB45}.Debug|x86.ActiveCfg = Debug|x86

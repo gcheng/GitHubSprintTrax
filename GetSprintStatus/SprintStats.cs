@@ -22,7 +22,8 @@ namespace GetSprintStatus
             get { return errors; }
         }
 
-        public int TotalIssues { get; private set; }
+        public int TotalOpenIssues { get; private set; }
+        public int TotalClosedIssues { get; private set; }
 
         public float DevRemaining
         {
@@ -30,6 +31,10 @@ namespace GetSprintStatus
         }
 
         public float TestRemaining { get; private set; }
+
+        public float Total { get { return DevRemaining + TestRemaining + Done; } }
+
+        public float Done { get; private set; }
 
         public float Pending { get; private set; }
 
@@ -44,9 +49,14 @@ namespace GetSprintStatus
             errors.Add(new ParseError(issue, reason));
         }
 
-        public void AddIssue()
+        public void AddOpenIssue()
         {
-            ++TotalIssues;
+            ++TotalOpenIssues;
+        }
+
+        public void AddClosedIssue()
+        {
+            ++TotalClosedIssues;
         }
 
         public void AddTest(float points)
@@ -72,6 +82,11 @@ namespace GetSprintStatus
         public void AddInTest(float points)
         {
             InTest += points;
+        }
+
+        public void AddDone(float points)
+        {
+            Done += points;
         }
     }
 }

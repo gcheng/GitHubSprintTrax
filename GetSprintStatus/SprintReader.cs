@@ -22,8 +22,7 @@ namespace GetSprintStatus
         private readonly string ownerLogin;
         private readonly string repositoryName;
 
-        private readonly List<string> stateLabels = new List<string>
-        {Pending, InProgress, ReadyForTest, InTest};
+        private readonly List<string> stateLabels = new List<string> { Pending, InProgress, ReadyForTest, InTest };
 
         private readonly List<string> blockedLabels = new List<string> { Blocked, Hold };
 
@@ -31,7 +30,9 @@ namespace GetSprintStatus
             RegexOptions.Multiline | RegexOptions.IgnoreCase);
 
         private Milestone currentMilestone;
-        private List<Issue> issues;
+        private List<Issue> openIssues;
+        private List<Issue> closedIssues;
+
         private Repository repository;
 
         public SprintReader(GithubService github, string ownerLogin, string repositoryName)
@@ -53,7 +54,7 @@ namespace GetSprintStatus
         private void FindCurrentMilestone()
         {
             var today = DateTimeOffset.Now;
-            var milestones = repository.GetMilestones();
+            var milestones = repository.GetMilestones().ToList();
 
             currentMilestone = milestones.FirstOrDefault(m => m.DueOn != null && m.DueOn.Value >= today) ??
                 milestones.First(m => m.Title == "Current Sprint");
@@ -61,7 +62,12 @@ namespace GetSprintStatus
 
         private void FindIssues()
         {
-            issues = repository.GetIssues(o => { o.Milestone = currentMilestone; }).ToList();
+            openIssues = repository.GetIssues(o => { o.Milestone = currentMilestone; }).ToList();
+            closedIssues = repository.GetIssues(o =>
+            {
+                o.Milestone = currentMilestone;
+                o.State = IssueState.Closed;
+            }).ToList();
         }
 
         private SprintStats CalculateStatistics(SprintStats stats = null)
@@ -70,9 +76,13 @@ namespace GetSprintStatus
             {
                 stats = new SprintStats(repository.Name, currentMilestone.Title);
             }
-            foreach (Issue issue in issues)
+            foreach (Issue issue in openIssues)
             {
                 CalculateStatistics(issue, stats);
+            }
+            foreach (Issue issue in closedIssues)
+            {
+                CalculateClosedStatistics(issue, stats);
             }
             return stats;
         }
@@ -82,7 +92,8 @@ namespace GetSprintStatus
             float devEstimate;
             float testEstimate;
 
-            stats.AddIssue();
+            stats.AddOpenIssue();
+
             ParseEstimates(issue, stats, out devEstimate, out testEstimate);
             ParseState(issue, stats, devEstimate, testEstimate);
         }
@@ -123,7 +134,7 @@ namespace GetSprintStatus
                     statesInIssue[label]++;
                 }
 
-                if(blockedLabels.Contains(label))
+                if (blockedLabels.Contains(label))
                 {
                     stats.AddError(issue, "Blocked");
                 }
@@ -142,10 +153,22 @@ namespace GetSprintStatus
             }
 
             stats.AddTest(testEstimate);
-            stats.AddPending(devEstimate*statesInIssue[Pending]);
-            stats.AddInProgress(devEstimate*statesInIssue[InProgress]);
-            stats.AddReadyForTest(testEstimate*statesInIssue[ReadyForTest]);
-            stats.AddInTest(testEstimate*statesInIssue[InTest]);
+            stats.AddPending(devEstimate * statesInIssue[Pending]);
+            stats.AddInProgress(devEstimate * statesInIssue[InProgress]);
+            stats.AddReadyForTest(testEstimate * statesInIssue[ReadyForTest]);
+            stats.AddInTest(testEstimate * statesInIssue[InTest]);
+        }
+
+
+        private void CalculateClosedStatistics(Issue issue, SprintStats stats)
+        {
+            float devEstimate;
+            float testEstimate;
+
+            stats.AddClosedIssue();
+
+            ParseEstimates(issue, stats, out devEstimate, out testEstimate);
+            stats.AddDone(devEstimate + testEstimate);
         }
     }
 }
