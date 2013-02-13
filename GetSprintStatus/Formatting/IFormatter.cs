@@ -2,6 +2,6 @@
 {
     internal interface IFormatter
     {
-        void WriteStatistics(SprintStats stats);
+        void Visit(BurndownStats stats);
     }
 }

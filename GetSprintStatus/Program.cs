@@ -22,7 +22,8 @@ namespace GetSprintStatus
             string repositoryName = args[1];
 
             var reader = new SprintReader(github, ownerLogin, repositoryName);
-            SprintStats stats = reader.GetSprintStatistics();
+            var burndown = new BurndownStats();
+            reader.GetSprintStatistics(burndown);
 
             var formatters = new List<IFormatter>
             {
@@ -31,7 +32,7 @@ namespace GetSprintStatus
                 new ErrorFormatter(Console.Error)
             };
 
-            formatters.ForEach(f => f.WriteStatistics(stats));
+            formatters.ForEach(f => f.Visit(burndown));
         }
     }
 }

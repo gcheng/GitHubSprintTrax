@@ -12,14 +12,12 @@ namespace GetSprintStatus.Formatting
     /// </summary>
     class ClipboardFormatter : IFormatter
     {
-        public void WriteStatistics(SprintStats stats)
+        public void Visit(BurndownStats stats)
         {
-            string text = string.Format("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}",
-                stats.Total,
+            string text = string.Format("{0}\t{1}\t{2}\t{3}\t{4}",
                 stats.DevRemaining, stats.TestRemaining,
                 stats.InProgress,
-                stats.ReadyForTest, stats.InTest,
-                stats.Done);
+                stats.ReadyForTest, stats.InTest);
 
             Clipboard.SetText(text, TextDataFormat.Text);
         }

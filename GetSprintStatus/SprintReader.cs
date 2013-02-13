@@ -8,26 +8,14 @@ namespace GetSprintStatus
 {
     internal class SprintReader
     {
-        private const string Pending = "pending";
-        private const string InProgress = "in progress";
-        private const string ReadyForTest = "ready for test";
-        private const string InTest = "in test";
-        private const string Blocked = "blocked";
-        private const string Hold = "hold";
-
         private readonly Regex devEstimateRegex = new Regex(@"^Dev Estimate:\s*(?<estimate>\d+(\.\d+)?)\s*$",
+            RegexOptions.Multiline | RegexOptions.IgnoreCase);
+        private readonly Regex testEstimateRegex = new Regex(@"^Test Estimate:\s*(?<estimate>\d+(\.\d+)?)\s*$",
             RegexOptions.Multiline | RegexOptions.IgnoreCase);
 
         private readonly GithubService github;
         private readonly string ownerLogin;
         private readonly string repositoryName;
-
-        private readonly List<string> stateLabels = new List<string> { Pending, InProgress, ReadyForTest, InTest };
-
-        private readonly List<string> blockedLabels = new List<string> { Blocked, Hold };
-
-        private readonly Regex testEstimateRegex = new Regex(@"^Test Estimate:\s*(?<estimate>\d+(\.\d+)?)\s*$",
-            RegexOptions.Multiline | RegexOptions.IgnoreCase);
 
         private Milestone currentMilestone;
         private List<Issue> openIssues;
@@ -42,13 +30,14 @@ namespace GetSprintStatus
             this.repositoryName = repositoryName;
         }
 
-        public SprintStats GetSprintStatistics()
+        public void GetSprintStatistics(IStatCalculator stats)
         {
             repository = github.GetRepository(ownerLogin, repositoryName);
             FindCurrentMilestone();
             FindIssues();
 
-            return CalculateStatistics();
+            stats.Start(repository.Name, currentMilestone.Title);
+            CalculateStatistics(stats);
         }
 
         private void FindCurrentMilestone()
@@ -70,35 +59,19 @@ namespace GetSprintStatus
             }).ToList();
         }
 
-        private SprintStats CalculateStatistics(SprintStats stats = null)
-        {
-            if (stats == null)
-            {
-                stats = new SprintStats(repository.Name, currentMilestone.Title);
-            }
-            foreach (Issue issue in openIssues)
-            {
-                CalculateStatistics(issue, stats);
-            }
-            foreach (Issue issue in closedIssues)
-            {
-                CalculateClosedStatistics(issue, stats);
-            }
-            return stats;
-        }
-
-        private void CalculateStatistics(Issue issue, SprintStats stats)
+        private void CalculateStatistics(IStatCalculator stats)
         {
             float devEstimate;
             float testEstimate;
 
-            stats.AddOpenIssue();
-
-            ParseEstimates(issue, stats, out devEstimate, out testEstimate);
-            ParseState(issue, stats, devEstimate, testEstimate);
+            foreach (Issue issue in openIssues.Concat(closedIssues))
+            {
+                ParseEstimates(issue, stats, out devEstimate, out testEstimate);
+                stats.AddIssue(issue, devEstimate, testEstimate);
+            }
         }
 
-        private void ParseEstimates(Issue issue, SprintStats stats, out float devEstimate, out float testEstimate)
+        private void ParseEstimates(Issue issue, IStatCalculator stats, out float devEstimate, out float testEstimate)
         {
             Match devMatches = devEstimateRegex.Match(issue.Body);
             Match testMatches = testEstimateRegex.Match(issue.Body);
@@ -115,60 +88,6 @@ namespace GetSprintStatus
 
             float.TryParse(devMatches.Groups["estimate"].Value, out devEstimate);
             float.TryParse(testMatches.Groups["estimate"].Value, out testEstimate);
-        }
-
-        private void ParseState(Issue issue, SprintStats stats, float devEstimate, float testEstimate)
-        {
-            var statesInIssue = new Dictionary<string, int>
-            {
-                {Pending, 0},
-                {InProgress, 0},
-                {ReadyForTest, 0},
-                {InTest, 0},
-            };
-
-            foreach (string label in issue.LabelNames.Select(l => l.ToLowerInvariant()))
-            {
-                if (stateLabels.Contains(label))
-                {
-                    statesInIssue[label]++;
-                }
-
-                if (blockedLabels.Contains(label))
-                {
-                    stats.AddError(issue, "Blocked");
-                }
-            }
-
-            if (statesInIssue.Values.Sum() == 0)
-            {
-                stats.AddError(issue, "Issue doesn't have a state");
-                return;
-            }
-
-            if (statesInIssue.Values.Sum() > 1)
-            {
-                stats.AddError(issue, "Issue has multiple state labels");
-                return;
-            }
-
-            stats.AddTest(testEstimate);
-            stats.AddPending(devEstimate * statesInIssue[Pending]);
-            stats.AddInProgress(devEstimate * statesInIssue[InProgress]);
-            stats.AddReadyForTest(testEstimate * statesInIssue[ReadyForTest]);
-            stats.AddInTest(testEstimate * statesInIssue[InTest]);
-        }
-
-
-        private void CalculateClosedStatistics(Issue issue, SprintStats stats)
-        {
-            float devEstimate;
-            float testEstimate;
-
-            stats.AddClosedIssue();
-
-            ParseEstimates(issue, stats, out devEstimate, out testEstimate);
-            stats.AddDone(devEstimate + testEstimate);
         }
     }
 }

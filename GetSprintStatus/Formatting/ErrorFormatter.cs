@@ -14,7 +14,7 @@ namespace GetSprintStatus.Formatting
             this.output = output;
         }
 
-        public void WriteStatistics(SprintStats stats)
+        public void Visit(BurndownStats stats)
         {
             bool errorHeaderWritten = false;
 

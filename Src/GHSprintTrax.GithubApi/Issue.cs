@@ -67,6 +67,14 @@ namespace GHSprintTrax.GithubApi
             get { return new Milestone(data.Milestone, repo); }
         }
 
+        public bool IsClosed
+        {
+            get
+            {
+                return data.State == "closed";
+            }
+        }
+
         #endregion
     }
 }
