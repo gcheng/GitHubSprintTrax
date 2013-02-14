@@ -19,16 +19,18 @@ namespace GetSprintStatus.Stats
                 return;
             }
 
+            float total = devEstimate + testEstimate;
+
             if (issue.IsClosed)
             {
-                Done += devEstimate + testEstimate;
+                Done += total;
             }
             else
             {
-                Pending += ((devEstimate + testEstimate)*(issueStates.IsPending ? 1 : 0));
-                InProgress += (devEstimate*(issueStates.IsInProgress ? 1 : 0));
-                ReadyForTest += (testEstimate*(issueStates.IsReadyForTest ? 1 : 0));
-                InTest += (testEstimate*(issueStates.IsInTest ? 1 : 0));
+                Pending += (total*(issueStates.IsPending ? 1 : 0));
+                InProgress += (total*(issueStates.IsInProgress ? 1 : 0));
+                ReadyForTest += (total*(issueStates.IsReadyForTest ? 1 : 0));
+                InTest += (total*(issueStates.IsInTest ? 1 : 0));
             }
         }
 

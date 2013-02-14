@@ -14,20 +14,20 @@ namespace GetSprintStatus.Formatting
 
         public void Visit(BurndownStats stats)
         {
-            WriteHeader(stats);
+            WriteHeader("Burndown data", stats);
             WriteBurndownStats(stats);
         }
 
         public void Visit(CumulativeFlowStats stats)
         {
-            WriteHeader(stats);
+            WriteHeader("Cumulative flow data", stats);
             WriteCFDStats(stats);
         }
 
-        private void WriteHeader(IStatCalculator stats)
+        private void WriteHeader(string label, IStatCalculator stats)
         {
-            output.WriteLine("Repository {0}", stats.RepoName);
-            output.WriteLine("For milestone {0}", stats.Milestone);
+            output.WriteLine("{0}: Repository {1}, milestone {2}", 
+                label, stats.RepoName, stats.Milestone);
         }
 
         private void WriteBurndownStats(BurndownStats stats)
