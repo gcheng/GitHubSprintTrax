@@ -35,10 +35,10 @@ namespace GetSprintStatus.Stats
             }
 
             TestRemaining += testEstimate;
-            Pending += (devEstimate * issueStates[GithubConventions.PendingLabel]);
-            InProgress += (devEstimate * issueStates[GithubConventions.InProgressLabel]);
-            ReadyForTest += (testEstimate * issueStates[GithubConventions.ReadyForTestLabel]);
-            InTest += (testEstimate * issueStates[GithubConventions.InTestLabel]);
+            Pending += (devEstimate * (issueStates.IsPending ? 1 : 0));
+            InProgress += (devEstimate * (issueStates.IsInProgress ? 1 : 0));
+            ReadyForTest += (testEstimate * (issueStates.IsReadyForTest ? 1 : 0));
+            InTest += (testEstimate * (issueStates.IsInTest ? 1 : 0));
         }
 
         public override void AddError(Issue issue, string reason)

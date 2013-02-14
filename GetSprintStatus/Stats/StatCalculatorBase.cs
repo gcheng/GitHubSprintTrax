@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using GHSprintTrax.GithubApi;
+using GetSprintStatus.Conventions;
 using GetSprintStatus.Formatting;
 
 namespace GetSprintStatus.Stats
@@ -30,25 +28,20 @@ namespace GetSprintStatus.Stats
         public string RepoName { get; private set; }
         public string Milestone { get; private set; }
 
-        protected Dictionary<string, int> ValidateIssueStates(Issue issue)
+        protected IssueStates ValidateIssueStates(Issue issue)
         {
-            var issueStates = GithubConventions.GetIssueStates(issue);
-
-            if (issueStates[GithubConventions.BlockedLabel] +
-                issueStates[GithubConventions.HoldLabel] > 0)
-            {
+            var issueStates = new IssueStates(issue);
+            if(issueStates.IsBlocked) {
                 AddError(issue, "Blocked");
-                issueStates.Remove(GithubConventions.BlockedLabel);
-                issueStates.Remove(GithubConventions.HoldLabel);
             }
 
-            if (issueStates.Values.Sum() == 0)
+            if (!issueStates.IsDone && !issueStates.HasState)
             {
                 AddError(issue, "Issue doesn't have a state");
                 return null;
             }
 
-            if (issueStates.Values.Sum() > 1)
+            if (!issueStates.IsDone && issueStates.HasManyStates)
             {
                 AddError(issue, "Issue has multiple state labels");
                 return null;

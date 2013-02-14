@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using GHSprintTrax.GithubApi;
+using GetSprintStatus.Conventions;
 
 namespace GetSprintStatus
 {
