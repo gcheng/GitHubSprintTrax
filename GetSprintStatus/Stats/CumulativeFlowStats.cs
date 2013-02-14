@@ -1,48 +1,48 @@
-﻿using System;
-using System.Collections.Generic;
-using GHSprintTrax.GithubApi;
+﻿using GHSprintTrax.GithubApi;
 using GetSprintStatus.Formatting;
 
 namespace GetSprintStatus.Stats
 {
-    class CumulativeFlowStats : IStatCalculator
+    class CumulativeFlowStats : StatCalculatorBase
     {
-        private readonly List<ParseError> errors = new List<ParseError>();
-
-        public string RepoName { get; private set; }
-
-        public string Milestone { get; private set; }
-
         public float Pending { get; private set; }
         public float InProgress { get; private set; }
         public float ReadyForTest { get; private set; }
         public float InTest { get; private set; }
         public float Done { get; private set; }
 
-        public void Start(string title, string milestone)
+        public override void AddIssue(Issue issue, float devEstimate, float testEstimate)
         {
-            RepoName = title;
-            Milestone = milestone;
-        }
-
-        public void AddIssue(Issue issue, float devEstimate, float testEstimate)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void AddError(Issue issue, string reason)
-        {
-            if (!issue.IsClosed)
+            var issueStates = ValidateIssueStates(issue);
+            if (issueStates == null)
             {
-                errors.Add(new ParseError(issue, reason));
+                return;
+            }
+
+            if (issue.IsClosed)
+            {
+                Done += devEstimate + testEstimate;
+            }
+            else
+            {
+                Pending += ((devEstimate + testEstimate)*(issueStates.IsPending ? 1 : 0));
+                InProgress += (devEstimate*(issueStates.IsInProgress ? 1 : 0));
+                ReadyForTest += (testEstimate*(issueStates.IsReadyForTest ? 1 : 0));
+                InTest += (testEstimate*(issueStates.IsInTest ? 1 : 0));
             }
         }
 
-        public void Accept(IFormatter formatter)
+        public override void AddError(Issue issue, string reason)
+        {
+            if (!issue.IsClosed)
+            {
+                base.AddError(issue, reason);
+            }
+        }
+
+        public override void Accept(IFormatter formatter)
         {
             formatter.Visit(this);
         }
-
-        public IEnumerable<ParseError> Errors { get { return errors; } }
     }
 }
