@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using GetSprintStatus.Stats;
 
 namespace GetSprintStatus.Formatting
 {
@@ -13,11 +14,17 @@ namespace GetSprintStatus.Formatting
 
         public void Visit(BurndownStats stats)
         {
-            WriteBurndownHeader(stats);
+            WriteHeader(stats);
             WriteBurndownStats(stats);
         }
 
-        private void WriteBurndownHeader(BurndownStats stats)
+        public void Visit(CumulativeFlowStats stats)
+        {
+            WriteHeader(stats);
+            WriteCFDStats(stats);
+        }
+
+        private void WriteHeader(IStatCalculator stats)
         {
             output.WriteLine("Repository {0}", stats.RepoName);
             output.WriteLine("For milestone {0}", stats.Milestone);
@@ -31,6 +38,16 @@ namespace GetSprintStatus.Formatting
             output.WriteLine("In Progress: {0}", stats.InProgress);
             output.WriteLine("Ready For Test: {0}", stats.ReadyForTest);
             output.WriteLine("In Test: {0}", stats.InTest);
+            output.WriteLine();
+        }
+
+        private void WriteCFDStats(CumulativeFlowStats stats)
+        {
+            output.WriteLine("Pending: {0}", stats.Pending);
+            output.WriteLine("In Progress: {0}", stats.InProgress);
+            output.WriteLine("Ready For Test: {0}", stats.ReadyForTest);
+            output.WriteLine("In Test: {0}", stats.InTest);
+            output.WriteLine("Done: {0}", stats.Done);
             output.WriteLine();
         }
     }

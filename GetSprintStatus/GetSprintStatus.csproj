@@ -46,7 +46,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AuthManager.cs" />
-    <Compile Include="Burndown\BurndownStats.cs" />
     <Compile Include="CommandLine\ConsolePrompt.cs" />
     <Compile Include="Credentials\AskUserCredentialProvider.cs" />
     <Compile Include="Credentials\CompositeCredentialProvider.cs" />
@@ -63,6 +62,9 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SprintReader.cs" />
+    <Compile Include="Stats\BurndownStats.cs" />
+    <Compile Include="Stats\CumulativeFlowStats.cs" />
+    <Compile Include="Stats\StatCalculatorBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Src\GHSprintTrax.GithubApi\GHSprintTrax.GithubApi.csproj">
@@ -73,6 +75,7 @@
   <ItemGroup>
     <None Include="app.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

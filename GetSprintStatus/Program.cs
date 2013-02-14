@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using GetSprintStatus.Credentials;
 using GetSprintStatus.Formatting;
 using GHSprintTrax.GithubApi;
+using GetSprintStatus.Stats;
 
 namespace GetSprintStatus
 {

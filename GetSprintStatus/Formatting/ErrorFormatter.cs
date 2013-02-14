@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using GHSprintTrax.GithubApi;
+using GetSprintStatus.Stats;
 
 namespace GetSprintStatus.Formatting
 {
@@ -15,6 +16,16 @@ namespace GetSprintStatus.Formatting
         }
 
         public void Visit(BurndownStats stats)
+        {
+            Output(stats);
+        }
+
+        public void Visit(CumulativeFlowStats stats)
+        {
+            Output(stats);
+        }
+
+        private void Output(IStatCalculator stats)
         {
             bool errorHeaderWritten = false;
 

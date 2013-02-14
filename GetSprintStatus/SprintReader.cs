@@ -1,18 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 using GHSprintTrax.GithubApi;
 
 namespace GetSprintStatus
 {
     internal class SprintReader
     {
-        private readonly Regex devEstimateRegex = new Regex(@"^Dev Estimate:\s*(?<estimate>\d+(\.\d+)?)\s*$",
-            RegexOptions.Multiline | RegexOptions.IgnoreCase);
-        private readonly Regex testEstimateRegex = new Regex(@"^Test Estimate:\s*(?<estimate>\d+(\.\d+)?)\s*$",
-            RegexOptions.Multiline | RegexOptions.IgnoreCase);
-
         private readonly GithubService github;
         private readonly string ownerLogin;
         private readonly string repositoryName;
@@ -57,11 +50,11 @@ namespace GetSprintStatus
 
         private void CalculateStatistics(IStatCalculator stats)
         {
-            float devEstimate;
-            float testEstimate;
-
             foreach (Issue issue in openIssues.Concat(closedIssues))
             {
+                float devEstimate;
+                float testEstimate;
+
                 GithubConventions.ParseEstimates(issue, stats, out devEstimate, out testEstimate);
                 stats.AddIssue(issue, devEstimate, testEstimate);
             }

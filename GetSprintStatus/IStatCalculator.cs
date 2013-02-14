@@ -18,5 +18,8 @@ namespace GetSprintStatus
         void Accept(IFormatter formatter);
 
         IEnumerable<ParseError> Errors { get; }
+
+        string RepoName { get; }
+        string Milestone { get; }
     }
 }
