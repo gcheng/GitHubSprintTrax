@@ -57,6 +57,11 @@ namespace GHSprintTrax.GithubApi
             get { return data.User.Url; }
         }
 
+        public List<Label> Labels
+        {
+            get { return data.Labels.Select(ld => new Label(ld, repo)).ToList(); }
+        }
+
         public List<string> LabelNames
         {
             get { return data.Labels.Select(ld => ld.Name).ToList(); }

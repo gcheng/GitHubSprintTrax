@@ -67,6 +67,7 @@
     <Compile Include="IAuthenticatedUserAPI.cs" />
     <Compile Include="IAuthorizationAPI.cs" />
     <Compile Include="Issue.cs" />
+    <Compile Include="Label.cs" />
     <Compile Include="Milestone.cs" />
     <Compile Include="Organization.cs" />
     <Compile Include="Repository.cs" />

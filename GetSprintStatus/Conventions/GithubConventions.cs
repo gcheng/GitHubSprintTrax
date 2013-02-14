@@ -16,6 +16,8 @@ namespace GetSprintStatus.Conventions
         private static readonly Regex testEstimateRegex = new Regex(@"^Test Estimate:\s*(?<estimate>\d+(\.\d+)?)\s*$",
             RegexOptions.Multiline | RegexOptions.IgnoreCase);
 
+        private const string PartnerLabelColor = "02d7e1";
+
         public static Milestone GetCurrentMilestone(Repository repository)
         {
             var today = DateTimeOffset.Now;
@@ -24,6 +26,11 @@ namespace GetSprintStatus.Conventions
             return milestones.FirstOrDefault(m => m.DueOn != null && m.DueOn.Value >= today) ??
                 milestones.First(m => m.Title == "Current Sprint");
 
+        }
+
+        public static bool IsPartnerIssue(Issue issue)
+        {
+            return issue.Labels.Any(l => l.Color == PartnerLabelColor);
         }
 
         public static void ParseEstimates(Issue issue, IStatCalculator stats, out float devEstimate, out float testEstimate)

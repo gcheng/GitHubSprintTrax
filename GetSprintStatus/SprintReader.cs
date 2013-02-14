@@ -51,7 +51,7 @@ namespace GetSprintStatus
 
         private void CalculateStatistics(IStatCalculator stats)
         {
-            foreach (Issue issue in openIssues.Concat(closedIssues))
+            foreach (Issue issue in openIssues.Concat(closedIssues).Where(i => !GithubConventions.IsPartnerIssue(i)))
             {
                 float devEstimate;
                 float testEstimate;
