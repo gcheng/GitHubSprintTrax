@@ -24,6 +24,12 @@ namespace GetSprintStatus.Formatting
             WriteCFDStats(stats);
         }
 
+        public void Visit(ContentTableStats stats)
+        {
+            WriteHeader("Sprint Contents", stats);
+            WriteSprintContents(stats);
+        }
+
         private void WriteHeader(string label, IStatCalculator stats)
         {
             output.WriteLine("{0}: Repository {1}, milestone {2}", 
@@ -49,6 +55,17 @@ namespace GetSprintStatus.Formatting
             output.WriteLine("In Test: {0}", stats.InTest);
             output.WriteLine("Done: {0}", stats.Done);
             output.WriteLine();
+        }
+
+        private void WriteSprintContents(ContentTableStats stats)
+        {
+            const string format = "{0,-16} {1,-4} {2,-4} {3,-6} {4}";
+            output.WriteLine(format, "State", "Dev", "Test", "Number", "Title");
+            output.WriteLine("------------------------------------------");
+            foreach (var issue in stats.Issues)
+            {
+                output.WriteLine(format, issue.State, issue.Dev, issue.Test, issue.Number, issue.Title.Clip(65));
+            }
         }
     }
 }

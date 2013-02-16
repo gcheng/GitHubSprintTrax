@@ -71,14 +71,17 @@ namespace GetSprintStatus
         [STAThread]
         private static void Main(string[] args)
         {
-            bool calcCFD = false;
+            IStatCalculator stats = null;
             bool showErrors = true;
             bool showHelp = false;
 
             var p = new OptionSet
             {
-                { "b|burndown", "Get burndown chart data", v => { calcCFD = false; }},
-                { "c|cfd", "Get cumulative flow chart data", v => { calcCFD = true; }},
+                { "b|burndown", "Get burndown chart data", v => { 
+                    stats = new BurndownStats();
+                }},
+                { "c|cfd", "Get cumulative flow chart data", v => { stats = new CumulativeFlowStats(); }},
+                { "t|table", "Summarize issues in sprint", v => { stats = new ContentTableStats(); }},
                 { "e|errors", "Turn on or off list of issues with state errors (defaults to on)", 
                     v => { showErrors = v != null; } },
                 { "h|?|help", "Display this help message", v => showHelp = v != null }
@@ -101,16 +104,11 @@ namespace GetSprintStatus
             string ownerLogin = extras[0];
             string repositoryName = extras[1];
 
-            IStatCalculator stats;
-            if (calcCFD)
-            {
-                stats = new CumulativeFlowStats();
-            }
-            else
+            if (stats == null)
             {
                 stats = new BurndownStats();
             }
-
+        
             var program = new Program(stats, ownerLogin, repositoryName, showErrors);
             program.Go();
         }

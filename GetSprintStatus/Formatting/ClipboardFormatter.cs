@@ -26,5 +26,10 @@ namespace GetSprintStatus.Formatting
 
             Clipboard.SetText(text, TextDataFormat.Text);
         }
+
+        public void Visit(ContentTableStats stats)
+        {
+            // Doesn't go to the clipboard
+        }
     }
 }

@@ -25,6 +25,11 @@ namespace GetSprintStatus.Formatting
             Output(stats);
         }
 
+        public void Visit(ContentTableStats stats)
+        {
+            Output(stats);
+        }
+
         private void Output(IStatCalculator stats)
         {
             bool errorHeaderWritten = false;
@@ -52,11 +57,12 @@ namespace GetSprintStatus.Formatting
 
         private void WriteErrors(IEnumerable<ParseError> group)
         {
-            Issue firstIssue = group.First().Issue;
+            var errorGroup = group.ToList();
+            Issue firstIssue = errorGroup.First().Issue;
 
             output.WriteLine("{0}: {1}", firstIssue.Number, firstIssue.Title.Clip(65));
             output.WriteLine(firstIssue.HtmlUrl);
-            foreach (ParseError error in group)
+            foreach (var error in errorGroup)
             {
                 output.WriteLine("    {0}", error.Reason);
             }

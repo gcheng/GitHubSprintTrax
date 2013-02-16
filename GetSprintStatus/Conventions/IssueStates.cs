@@ -73,5 +73,30 @@ namespace GetSprintStatus.Conventions
 
         public bool HasState { get; private set; }
         public bool HasManyStates { get; private set; }
+
+        public override string ToString()
+        {
+            if (IsPending)
+            {
+                return "Pending";
+            }
+            if (IsInProgress)
+            {
+                return "In Progress";
+            }
+            if (IsReadyForTest)
+            {
+                return "Ready for Test";
+            }
+            if (IsInTest)
+            {
+                return "In Test";
+            }
+            if (IsDone)
+            {
+                return "Done";
+            }
+            return "Unknown state";
+        }
     }
 }
