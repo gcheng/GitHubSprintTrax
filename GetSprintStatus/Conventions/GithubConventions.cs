@@ -23,7 +23,7 @@ namespace GetSprintStatus.Conventions
             var today = DateTimeOffset.Now;
             var milestones = repository.GetMilestones().ToList();
 
-            return milestones.FirstOrDefault(m => m.DueOn != null && m.DueOn.Value >= today) ??
+            return milestones.Where(m => m.DueOn != null && m.DueOn.Value >= today).OrderBy(m => m.DueOn).FirstOrDefault() ??
                 milestones.First(m => m.Title == "Current Sprint");
 
         }
