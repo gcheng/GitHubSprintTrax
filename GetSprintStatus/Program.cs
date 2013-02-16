@@ -17,14 +17,14 @@ namespace GetSprintStatus
         private List<IFormatter> formatters;
         private readonly IStatCalculator stats;
 
-        Program(IStatCalculator stats, string ownerLogin, string repository)
+        Program(IStatCalculator stats, string ownerLogin, string repository, bool listErrors)
         {
             this.stats = stats;
             this.ownerLogin = ownerLogin;
             this.repository = repository;
 
             connectToGithub();
-            createFormatters();
+            createFormatters(listErrors);
         }
 
         private void Go()
@@ -43,14 +43,18 @@ namespace GetSprintStatus
             github = new GithubService(authorization);
         }
 
-        private void createFormatters()
+        private void createFormatters(bool listErrors)
         {
             formatters = new List<IFormatter>
             {
                 new ClipboardFormatter(),
-                new ConsoleFormatter(Console.Out),
-                new ErrorFormatter(Console.Error)
+                new ConsoleFormatter(Console.Out)
             };
+
+            if (listErrors)
+            {
+                formatters.Add(new ErrorFormatter(Console.Error));
+            }
         }
 
         private void CalculateStats()
@@ -68,12 +72,15 @@ namespace GetSprintStatus
         private static void Main(string[] args)
         {
             bool calcCFD = false;
+            bool showErrors = true;
             bool showHelp = false;
 
             var p = new OptionSet
             {
                 { "b|burndown", "Get burndown chart data", v => { calcCFD = false; }},
                 { "c|cfd", "Get cumulative flow chart data", v => { calcCFD = true; }},
+                { "e|errors", "Turn on or off list of issues with state errors (defaults to on)", 
+                    v => { showErrors = v != null; } },
                 { "h|?|help", "Display this help message", v => showHelp = v != null }
             };
             List<String> extras = p.Parse(args);
@@ -104,7 +111,7 @@ namespace GetSprintStatus
                 stats = new BurndownStats();
             }
 
-            var program = new Program(stats, ownerLogin, repositoryName);
+            var program = new Program(stats, ownerLogin, repositoryName, showErrors);
             program.Go();
         }
 
