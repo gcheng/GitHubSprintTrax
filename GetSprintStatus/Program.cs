@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Linq;
 using GetSprintStatus.Credentials;
 using GetSprintStatus.Formatting;
 using GHSprintTrax.GithubApi;
@@ -11,17 +13,15 @@ namespace GetSprintStatus
     internal class Program
     {
         private GithubService github;
-        private readonly string ownerLogin;
-        private readonly string repository;
 
+        private readonly List<Tuple<string, string>> repoNames;
         private List<IFormatter> formatters;
         private readonly IStatCalculator stats;
 
-        Program(IStatCalculator stats, string ownerLogin, string repository, bool listErrors)
+        Program(IStatCalculator stats, IEnumerable<Tuple<string, string>> repoNames, bool listErrors)
         {
             this.stats = stats;
-            this.ownerLogin = ownerLogin;
-            this.repository = repository;
+            this.repoNames = new List<Tuple<string, string>>(repoNames);
 
             connectToGithub();
             createFormatters(listErrors);
@@ -59,8 +59,11 @@ namespace GetSprintStatus
 
         private void CalculateStats()
         {
-            var reader = new SprintReader(github, ownerLogin, repository);
-            reader.GetSprintStatistics(stats);
+            foreach (var repoName in repoNames)
+            {
+                var reader = new SprintReader(github, repoName.Item1, repoName.Item2);
+                reader.GetSprintStatistics(stats);
+            }
         }
 
         private void ShowResults()
@@ -87,29 +90,21 @@ namespace GetSprintStatus
                 { "h|?|help", "Display this help message", v => showHelp = v != null }
             };
             List<String> extras = p.Parse(args);
-
+            
             if (showHelp)
             {
                 ShowHelp(p);
                 return;
-            } 
-            
-            if (extras.Count < 2)
-            {
-                Console.WriteLine("Error: Must specify owner and name of repository");
-                ShowHelp(p);
-                return;
             }
 
-            string ownerLogin = extras[0];
-            string repositoryName = extras[1];
+            IList<Tuple<string, string>> repos = GetRepoNames(extras);
 
             if (stats == null)
             {
                 stats = new BurndownStats();
             }
         
-            var program = new Program(stats, ownerLogin, repositoryName, showErrors);
+            var program = new Program(stats, repos, showErrors);
             program.Go();
         }
 
@@ -118,5 +113,28 @@ namespace GetSprintStatus
             Console.WriteLine("Usage: GetSprintStatus [Options] <repo owner> <repo name>");
             p.WriteOptionDescriptions(Console.Out);
         }
+
+        private static IList<Tuple<string, string>> GetRepoNames(IList<string> extraParams)
+        {
+            if (extraParams.Count == 2)
+            {
+                // owner/repo on command line
+                return new List<Tuple<string, string>>() {Tuple.Create(extraParams[0], extraParams[1])};
+            }
+           
+            if (extraParams.Count == 1)
+            {
+                // project name - look up owner/repo names in app config file
+                string repos = ConfigurationManager.AppSettings[extraParams[0]];
+                if (repos == null)
+                {
+                    throw new Exception("Unknown project name");
+                }
+
+                return repos.Split(',').Select(repo => repo.Split('/')).Select(ownerRepo => Tuple.Create(ownerRepo[0], ownerRepo[1])).ToList();
+            }
+
+            throw new Exception("Must specify project name or owner and repo name on command line");
+        } 
     }
 }

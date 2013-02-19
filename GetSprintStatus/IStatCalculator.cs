@@ -9,7 +9,9 @@ namespace GetSprintStatus
 {
     interface IStatCalculator
     {
-        void Start(string title, string milestone);
+        void Start(string message);
+
+        void StartRepository(string title, string milestone);
 
         void AddIssue(Issue issue, float devEstimate, float testEstimate);
 
@@ -21,5 +23,6 @@ namespace GetSprintStatus
 
         string RepoName { get; }
         string Milestone { get; }
+        string HeaderMessage { get; }
     }
 }

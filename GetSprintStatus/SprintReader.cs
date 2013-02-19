@@ -30,7 +30,7 @@ namespace GetSprintStatus
             FindCurrentMilestone();
             FindIssues();
 
-            stats.Start(repository.Name, currentMilestone.Title);
+            stats.StartRepository(repository.Name, currentMilestone.Title);
             CalculateStatistics(stats);
         }
 

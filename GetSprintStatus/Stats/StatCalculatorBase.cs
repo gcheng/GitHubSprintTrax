@@ -7,9 +7,15 @@ namespace GetSprintStatus.Stats
 {
     abstract class StatCalculatorBase : IStatCalculator
     {
-        private readonly List<ParseError> errors = new List<ParseError>(); 
+        private string headerMessage;
+        private readonly List<ParseError> errors = new List<ParseError>();
 
-        public virtual void Start(string title, string milestone)
+        public void Start(string message)
+        {
+            headerMessage = message;
+        }
+
+        public virtual void StartRepository(string title, string milestone)
         {
             RepoName = title;
             Milestone = milestone;
@@ -27,6 +33,7 @@ namespace GetSprintStatus.Stats
         public IEnumerable<ParseError> Errors { get { return errors; } }
         public string RepoName { get; private set; }
         public string Milestone { get; private set; }
+        public string HeaderMessage { get { return headerMessage; } }
 
         protected IssueStates ValidateIssueStates(Issue issue)
         {
