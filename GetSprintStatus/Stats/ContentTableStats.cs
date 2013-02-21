@@ -42,6 +42,14 @@ namespace GetSprintStatus.Stats
             }
         }
 
+        public override void AddError(Issue issue, string reason)
+        {
+            if (!issue.IsClosed)
+            {
+                base.AddError(issue, reason);
+            }
+        }
+
         public override void Accept(IFormatter formatter)
         {
             formatter.Visit(this);

@@ -76,6 +76,10 @@ namespace GetSprintStatus.Conventions
 
         public override string ToString()
         {
+            if (IsDone)
+            {
+                return "Done";
+            }
             if (IsPending)
             {
                 return "Pending";
@@ -91,10 +95,6 @@ namespace GetSprintStatus.Conventions
             if (IsInTest)
             {
                 return "In Test";
-            }
-            if (IsDone)
-            {
-                return "Done";
             }
             return "Unknown state";
         }
