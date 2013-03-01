@@ -63,6 +63,7 @@
     <Compile Include="EntityImplementations\GetListOptions.cs" />
     <Compile Include="EntityImplementations\UserApiImplementation.cs" />
     <Compile Include="GetIssuesOptions.cs" />
+    <Compile Include="GetMilestonesOptions.cs" />
     <Compile Include="GithubService.cs" />
     <Compile Include="IAuthenticatedUserAPI.cs" />
     <Compile Include="IAuthorizationAPI.cs" />

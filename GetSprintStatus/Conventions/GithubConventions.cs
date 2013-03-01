@@ -21,7 +21,9 @@ namespace GetSprintStatus.Conventions
         public static Milestone GetCurrentMilestone(Repository repository)
         {
             var today = DateTimeOffset.Now;
-            var milestones = repository.GetMilestones().ToList();
+            var milestones = repository.GetMilestones()
+                .Concat(repository.GetMilestones(o => { o.State = MilestoneState.Closed; }))
+                .ToList();
 
             return milestones.Where(m => m.DueOn != null && m.DueOn.Value >= today).OrderBy(m => m.DueOn).FirstOrDefault() ??
                 milestones.First(m => m.Title == "Current Sprint");

@@ -113,6 +113,11 @@ namespace GHSprintTrax.GithubApi
                 "/milestones", null, md => new Milestone(md, this));
         }
 
+        public IEnumerable<Milestone> GetMilestones(Action<GetMilestonesOptions> optionSetter) {
+            return GetPagedList<Milestone, MilestoneData, GetMilestonesOptions>(
+                "/milestones", optionSetter, md => new Milestone(md, this));
+        }
+
         public IEnumerable<Issue> GetIssues()
         {
             return GetIssues(null);
