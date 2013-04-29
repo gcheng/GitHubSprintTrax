@@ -35,7 +35,7 @@ namespace GetSprintStatus.Conventions
             return issue.Labels.Any(l => l.Color == PartnerLabelColor);
         }
 
-        public static void ParseEstimates(Issue issue, IStatCalculator stats, out float devEstimate, out float testEstimate)
+        public static void ParseEstimates(Issue issue, IStatisticsCalculator stats, out float devEstimate, out float testEstimate)
         {
             Match devMatches = devEstimateRegex.Match(issue.Body);
             Match testMatches = testEstimateRegex.Match(issue.Body);

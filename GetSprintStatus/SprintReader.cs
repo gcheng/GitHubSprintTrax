@@ -24,7 +24,7 @@ namespace GetSprintStatus
             this.repositoryName = repositoryName;
         }
 
-        public void GetSprintStatistics(IStatCalculator stats)
+        public void GetSprintStatistics(IStatisticsCalculator stats)
         {
             repository = github.GetRepository(ownerLogin, repositoryName);
             FindCurrentMilestone();
@@ -49,7 +49,7 @@ namespace GetSprintStatus
             }).ToList();
         }
 
-        private void CalculateStatistics(IStatCalculator stats)
+        private void CalculateStatistics(IStatisticsCalculator stats)
         {
             foreach (Issue issue in openIssues.Concat(closedIssues).Where(i => !GithubConventions.IsPartnerIssue(i)))
             {

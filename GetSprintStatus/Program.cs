@@ -12,15 +12,15 @@ namespace GetSprintStatus
 {
     internal class Program
     {
-        private GithubService github;
+        private GithubService githubService;
 
         private readonly List<Tuple<string, string>> repoNames;
         private List<IFormatter> formatters;
-        private readonly IStatCalculator stats;
+        private readonly IStatisticsCalculator statisticsCalculator;
 
-        Program(IStatCalculator stats, IEnumerable<Tuple<string, string>> repoNames, bool listErrors)
+        Program(IStatisticsCalculator stats, IEnumerable<Tuple<string, string>> repoNames, bool listErrors)
         {
-            this.stats = stats;
+            this.statisticsCalculator = stats;
             this.repoNames = new List<Tuple<string, string>>(repoNames);
 
             connectToGithub();
@@ -31,6 +31,7 @@ namespace GetSprintStatus
         {
             CalculateStats();
             ShowResults();
+            CreateGraph();
         }
 
         private void connectToGithub()
@@ -40,7 +41,7 @@ namespace GetSprintStatus
                 .Add(new AskUserCredentialProvider());
 
             var authorization = AuthManager.GetAuthorization(credentialProvider);
-            github = new GithubService(authorization);
+            githubService = new GithubService(authorization);
         }
 
         private void createFormatters(bool listErrors)
@@ -61,20 +62,25 @@ namespace GetSprintStatus
         {
             foreach (var repoName in repoNames)
             {
-                var reader = new SprintReader(github, repoName.Item1, repoName.Item2);
-                reader.GetSprintStatistics(stats);
+                var reader = new SprintReader(githubService, repoName.Item1, repoName.Item2);
+                reader.GetSprintStatistics(statisticsCalculator);
             }
         }
 
         private void ShowResults()
         {
-            formatters.ForEach(f => stats.Accept(f));
+            formatters.ForEach(f => statisticsCalculator.Accept(f));
+        }
+
+        private void CreateGraph()
+        {
+
         }
 
         [STAThread]
         private static void Main(string[] args)
         {
-            IStatCalculator stats = null;
+            IStatisticsCalculator stats = null;
             bool showErrors = true;
             bool showHelp = false;
 
@@ -108,10 +114,10 @@ namespace GetSprintStatus
             program.Go();
         }
 
-        private static void ShowHelp(OptionSet p)
+        private static void ShowHelp(OptionSet optionSet)
         {
             Console.WriteLine("Usage: GetSprintStatus [Options] <repo owner> <repo name>");
-            p.WriteOptionDescriptions(Console.Out);
+            optionSet.WriteOptionDescriptions(Console.Out);
         }
 
         private static IList<Tuple<string, string>> GetRepoNames(IList<string> extraParams)

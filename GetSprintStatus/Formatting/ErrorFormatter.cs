@@ -30,7 +30,7 @@ namespace GetSprintStatus.Formatting
             Output(stats);
         }
 
-        private void Output(IStatCalculator stats)
+        private void Output(IStatisticsCalculator stats)
         {
             bool errorHeaderWritten = false;
 

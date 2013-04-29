@@ -64,7 +64,7 @@
     <Compile Include="Formatting\ConsoleFormatter.cs" />
     <Compile Include="Formatting\ErrorFormatter.cs" />
     <Compile Include="Formatting\IFormatter.cs" />
-    <Compile Include="IStatCalculator.cs" />
+    <Compile Include="IStatisticsCalculator.cs" />
     <Compile Include="ParseError.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

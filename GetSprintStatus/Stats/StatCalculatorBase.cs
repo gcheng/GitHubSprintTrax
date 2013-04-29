@@ -5,7 +5,7 @@ using GetSprintStatus.Formatting;
 
 namespace GetSprintStatus.Stats
 {
-    abstract class StatCalculatorBase : IStatCalculator
+    abstract class StatCalculatorBase : IStatisticsCalculator
     {
         private string headerMessage;
         private readonly List<ParseError> errors = new List<ParseError>();

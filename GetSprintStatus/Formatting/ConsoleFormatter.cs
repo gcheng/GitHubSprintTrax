@@ -30,7 +30,7 @@ namespace GetSprintStatus.Formatting
             WriteSprintContents(stats);
         }
 
-        private void WriteHeader(string label, IStatCalculator stats)
+        private void WriteHeader(string label, IStatisticsCalculator stats)
         {
             output.WriteLine("{0}: Repository {1}, milestone {2}", 
                 label, stats.RepoName, stats.Milestone);
