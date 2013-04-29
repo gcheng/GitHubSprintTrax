@@ -74,7 +74,17 @@ namespace GetSprintStatus
 
         private void CreateGraph()
         {
+            WriteOutputCsvFile();
+            
+            DrawChart();
+        }
 
+        private void WriteOutputCsvFile()
+        {
+        }
+
+        private void DrawChart()
+        {
         }
 
         [STAThread]
