@@ -75,9 +75,9 @@
     <Compile Include="Stats\StatCalculatorBase.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Src\GHSprintTrax.GithubApi\GHSprintTrax.GithubApi.csproj">
+    <ProjectReference Include="..\Src\GHSprintTrax.GithubApi\GitHubSprintTrax.GithubApi.csproj">
       <Project>{59AE0925-7E03-4D22-8FA4-7AA550C2AB5A}</Project>
-      <Name>GHSprintTrax.GithubApi</Name>
+      <Name>GitHubSprintTrax.GithubApi</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

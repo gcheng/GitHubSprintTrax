@@ -52,6 +52,7 @@ namespace GHSprintTrax.GithubApi.EntityImplementations
                 RequestUri = requestUri.Uri
             };
 
+            message.Headers.Add("User-Agent", "githubsprinttrax");
             message.Headers.Accept.Add(MediaTypeWithQualityHeaderValue.Parse(Constants.apiMimeType));
             return message;
         }
