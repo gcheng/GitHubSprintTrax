@@ -29,7 +29,7 @@ namespace GetSprintStatus
 
         private void Go()
         {
-            CalculateStats();
+            CalculateStatistics();
             ShowResults();
             CreateGraph();
         }
@@ -58,7 +58,7 @@ namespace GetSprintStatus
             }
         }
 
-        private void CalculateStats()
+        private void CalculateStatistics()
         {
             foreach (var repoName in repoNames)
             {
@@ -122,13 +122,18 @@ namespace GetSprintStatus
 
         private static IList<Tuple<string, string>> GetRepoNames(IList<string> extraParams)
         {
-            if (extraParams.Count == 2)
+            if (extraParams.Count > 1)
             {
-                // owner/repo on command line
-                return new List<Tuple<string, string>>() {Tuple.Create(extraParams[0], extraParams[1])};
+                List<Tuple<string, string>> result = new List<Tuple<string, string>>();
+                for (int i = 1; i < extraParams.Count; i++)
+                {
+                    // owner/repo on command line
+                    result.Add(Tuple.Create(extraParams[0], extraParams[i]));
+                }
+
+                return result;
             }
-           
-            if (extraParams.Count == 1)
+            else if (extraParams.Count == 1)
             {
                 // project name - look up owner/repo names in app config file
                 string repos = ConfigurationManager.AppSettings[extraParams[0]];
@@ -139,8 +144,10 @@ namespace GetSprintStatus
 
                 return repos.Split(',').Select(repo => repo.Split('/')).Select(ownerRepo => Tuple.Create(ownerRepo[0], ownerRepo[1])).ToList();
             }
-
-            throw new Exception("Must specify project name or owner and repo name on command line");
+            else
+            {
+                throw new Exception("Must specify project name or owner and repo name on command line");
+            }
         } 
     }
 }
